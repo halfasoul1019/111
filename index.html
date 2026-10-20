@@ -94,6 +94,27 @@
   .macrow em{font-style:normal;font-size:9.5px;padding:1px 5px;border-radius:4px}
   .macrow em.ok{color:var(--green);background:rgba(15,157,112,.1)}
   .macrow em.no{color:var(--red);background:rgba(225,29,72,.09)}
+  /* auth */
+  .auth{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 26px 40px}
+  .authlogo{width:58px;height:58px;border-radius:17px;display:grid;place-items:center;font-size:26px;font-weight:800;color:#fff;
+    background:linear-gradient(145deg,#22d3ee,#0891b2);box-shadow:0 12px 28px rgba(8,145,178,.35);margin-bottom:18px}
+  .auth h1{font-size:25px;letter-spacing:-.5px;margin-bottom:6px}
+  .auth .sub{font-size:12px;color:var(--sub);margin-bottom:22px}
+  .authtabs{display:flex;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:3px;margin-bottom:16px}
+  .authtabs button{flex:1;border:0;background:transparent;border-radius:8px;padding:9px;font-size:13px;font-weight:700;
+    color:var(--sub);font-family:inherit;cursor:pointer}
+  .authtabs button.on{background:var(--bg);color:var(--cyan)}
+  .auth input{width:100%;border:1px solid var(--line);background:var(--card);border-radius:11px;padding:13px 14px;
+    font-size:15px;font-family:inherit;color:var(--ink);outline:none;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+  .auth input:focus{border-color:rgba(8,145,178,.45)}
+  .authgo{width:100%;border:0;border-radius:12px;padding:14px;font-size:15px;font-weight:800;font-family:inherit;
+    background:linear-gradient(135deg,#22d3ee,#0891b2);color:#fff;box-shadow:0 10px 22px rgba(8,145,178,.28);cursor:pointer;margin-top:4px}
+  .autherr{color:var(--red);font-size:11.5px;min-height:18px;margin-top:10px}
+  .authnote{margin-top:16px;font-size:10.5px;color:var(--sub);line-height:1.7}
+  .acctbar{display:flex;align-items:center;gap:8px;margin:10px 0 4px;font-size:11px;color:var(--sub)}
+  .acctbar b{color:var(--ink)}
+  .acctbar button{border:1px solid var(--line);background:var(--card);color:var(--sub);border-radius:8px;
+    padding:4px 9px;font-size:10.5px;font-family:inherit;cursor:pointer}
   /* header */
   header{padding:16px 0 4px}
   .hdrow{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
@@ -440,16 +461,74 @@ function toast(msg){
 }
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
 
+/* ---------------- auth (本机账号) ---------------- */
+var USERS_KEY="biz.auth.users", SESSION_KEY="biz.auth.session", DATA_PREFIX="biz.ledger.v2.u:";
+
+function sha256(str){
+  function rr(v,a){ return (v>>>a)|(v<<(32-a)); }
+  var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+    0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+    0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+    0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+    0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+  var H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  var bytes=[], i;
+  for(i=0;i<str.length;i++){
+    var cc=str.charCodeAt(i);
+    if(cc<128) bytes.push(cc);
+    else if(cc<2048){ bytes.push(192|(cc>>6),128|(cc&63)); }
+    else { bytes.push(224|(cc>>12),128|((cc>>6)&63),128|(cc&63)); }
+  }
+  var bitLen=bytes.length*8;
+  bytes.push(0x80);
+  while(bytes.length%64!==56) bytes.push(0);
+  bytes.push(0,0,0,0,(bitLen>>>24)&255,(bitLen>>>16)&255,(bitLen>>>8)&255,bitLen&255);
+  for(var off=0;off<bytes.length;off+=64){
+    var w=new Array(64);
+    for(i=0;i<16;i++) w[i]=(bytes[off+i*4]<<24)|(bytes[off+i*4+1]<<16)|(bytes[off+i*4+2]<<8)|bytes[off+i*4+3];
+    for(i=16;i<64;i++){
+      var s0=rr(w[i-15],7)^rr(w[i-15],18)^(w[i-15]>>>3);
+      var s1=rr(w[i-2],17)^rr(w[i-2],19)^(w[i-2]>>>10);
+      w[i]=(w[i-16]+s0+w[i-7]+s1)|0;
+    }
+    var a=H[0],b=H[1],cc2=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
+    for(i=0;i<64;i++){
+      var S1=rr(e,6)^rr(e,11)^rr(e,25), ch=(e&f)^((~e)&g);
+      var t1=(h+S1+ch+K[i]+w[i])|0;
+      var S0=rr(a,2)^rr(a,13)^rr(a,22), maj=(a&b)^(a&cc2)^(b&cc2);
+      var t2=(S0+maj)|0;
+      h=g;g=f;f=e;e=(d+t1)|0;d=cc2;cc2=b;b=a;a=(t1+t2)|0;
+    }
+    H[0]=(H[0]+a)|0;H[1]=(H[1]+b)|0;H[2]=(H[2]+cc2)|0;H[3]=(H[3]+d)|0;
+    H[4]=(H[4]+e)|0;H[5]=(H[5]+f)|0;H[6]=(H[6]+g)|0;H[7]=(H[7]+h)|0;
+  }
+  return H.map(function(x){ return ("00000000"+(x>>>0).toString(16)).slice(-8); }).join("");
+}
+function hashPw(pw, salt){ var out=pw+salt; for(var i=0;i<300;i++) out=sha256(out); return out; }
+
+function getUsers(){
+  try{ return JSON.parse(localStorage.getItem(USERS_KEY)||"[]"); }catch(e){ return []; }
+}
+function saveUsers(a){ try{ localStorage.setItem(USERS_KEY, JSON.stringify(a)); }catch(e){} }
+function currentUser(){
+  try{ return localStorage.getItem(SESSION_KEY)||""; }catch(e){ return ""; }
+}
+function setSession(u){ try{ localStorage.setItem(SESSION_KEY,u||""); }catch(e){} }
+function dataKey(){ var u=currentUser(); return u? (DATA_PREFIX+u) : KEY; }
+
 /* ---------------- storage ---------------- */
 function load(){
   try{
-    var raw=localStorage.getItem(KEY);
+    var raw=localStorage.getItem(dataKey());
     if(raw){ var d=JSON.parse(raw); if(d && Array.isArray(d.records)) return d; }
   }catch(e){}
   return null;
 }
 function save(){
-  try{ localStorage.setItem(KEY, JSON.stringify(state.data)); localStorage.setItem("biz.ui.month", state.month||""); }
+  try{ localStorage.setItem(dataKey(), JSON.stringify(state.data)); localStorage.setItem("biz.ui.month", state.month||""); }
   catch(e){ toast("保存失败：空间不足"); }
 }
 function resetData(){
@@ -1078,7 +1157,9 @@ function renderClients(){
       '</div></div>';
   });
 
-  html += '<div class="tools"><button id="addClient">＋ 新增客户</button>'+
+  html += '<div class="acctbar"><span>当前账号</span><b>'+esc(currentUser())+'</b>'+
+    '<button id="logoutBtn" style="margin-left:auto">退出登录</button></div>'+
+    '<div class="tools"><button id="addClient">＋ 新增客户</button>'+
     '<button id="expCsv">导出 CSV</button><button id="expJson">备份</button>'+
     '<button id="impJson">恢复</button><button id="resetSeed">重置为表格数据</button></div>'+
     '<input type="file" id="fileInput" accept="application/json,.json" hidden>';
@@ -1557,6 +1638,74 @@ function importJson(file){
   fr.readAsText(file);
 }
 
+function showAuth(mode){
+  state.authMode = mode || "login";
+  var users=getUsers();
+  if(!users.length) state.authMode="register";
+  var reg = state.authMode==="register";
+  document.getElementById("dock").style.display="none";
+  document.getElementById("app").innerHTML =
+    '<div class="auth">'+
+      '<div class="authlogo">账</div>'+
+      '<h1>业务账单</h1>'+
+      '<div class="sub">'+(reg? (users.length? "新建一个账号":"第一次使用，先创建账号") : "登录后继续记账")+'</div>'+
+      '<div class="authtabs" style="'+(users.length?"":"display:none")+'">'+
+        '<button data-at="login" class="'+(!reg?"on":"")+'">登录</button>'+
+        '<button data-at="register" class="'+(reg?"on":"")+'">注册</button>'+
+      '</div>'+
+      '<input id="auName" placeholder="用户名（比如 张三 / laoban）" autocomplete="username" maxlength="12">'+
+      '<input id="auPass" type="password" placeholder="密码（至少 4 位）" autocomplete="current-password">'+
+      '<input id="auPass2" type="password" placeholder="再输一次密码" style="'+(reg?"":"display:none")+'">'+
+      '<button class="authgo" id="auGo">'+(reg?"创建账号":"登录")+'</button>'+
+      '<div class="autherr" id="auErr"></div>'+
+      '<div class="authnote">这是<b>本机账号</b>：数据只保存在这台设备上，用来区分不同人/不同账本。<br>忘记密码无法找回，请牢记；需要换设备时用「备份 / 恢复」搬数据。</div>'+
+    '</div>';
+  setTimeout(function(){ var el=document.getElementById("auName"); if(el) el.focus(); },200);
+}
+
+function authSubmit(){
+  var name=(document.getElementById("auName").value||"").trim();
+  var pw=(document.getElementById("auPass").value||"");
+  var pw2=(document.getElementById("auPass2").value||"");
+  var err=document.getElementById("auErr");
+  var reg = state.authMode==="register";
+  function fail(m){ err.textContent=m; }
+  if(!name) return fail("请输入用户名");
+  if(name.length>12) return fail("用户名最多 12 个字");
+  if(pw.length<4) return fail("密码至少 4 位");
+  var users=getUsers();
+  var found=null;
+  users.forEach(function(u){ if(u.name===name) found=u; });
+
+  if(reg){
+    if(found) return fail("这个用户名已经存在，换个名字或直接登录");
+    if(pw!==pw2) return fail("两次密码不一致");
+    var salt=Math.random().toString(36).slice(2,10);
+    users.push({ name:name, salt:salt, hash:hashPw(pw,salt), created:Date.now() });
+    saveUsers(users);
+    // 第一个账号：把本机已有的账本接过来
+    if(users.length===1){
+      try{
+        var legacy=localStorage.getItem(KEY)||localStorage.getItem("biz.ledger.v2.local");
+        if(legacy) localStorage.setItem(DATA_PREFIX+name, legacy);
+      }catch(e){}
+    } else {
+      // 后面的账号：空账本 + 沿用客户名单
+      try{
+        localStorage.setItem(DATA_PREFIX+name, JSON.stringify({
+          clients: SEED.clients.slice(), records: [], expenses: [], year: SEED.year
+        }));
+      }catch(e){}
+    }
+    setSession(name);
+  } else {
+    if(!found) return fail("没有这个用户名");
+    if(found.hash!==hashPw(pw,found.salt)) return fail("密码不对");
+    setSession(name);
+  }
+  location.reload();
+}
+
 /* ---------------- render root ---------------- */
 function render(){
   var app=$("app"), dock=$("dock");
@@ -1590,6 +1739,9 @@ function bindView(){
   };
   if((r=$("clearFilter"))) r.onclick=function(){ state.clientFilter=null; render(); };
   if((r=$("addBtn"))) r.onclick=function(){ openEdit(null); };
+  if((r=$("logoutBtn"))) r.onclick=function(){
+    if(confirm("退出登录？数据不会丢，下次用这个账号登录还能看到。")){ setSession(""); location.reload(); }
+  };
   if((r=$("addClient"))) r.onclick=function(){
     openAddClient();
   };
@@ -1639,6 +1791,9 @@ function bindView(){
 /* ---------------- sheet events (delegated) ---------------- */
 document.addEventListener("click", function(e){
   var t=e.target;
+  var at=t.closest && t.closest("[data-at]");
+  if(at){ state.authMode=at.getAttribute("data-at"); showAuth(state.authMode); return; }
+  if(t.id==="auGo"){ authSubmit(); return; }
   if(t.id==="mask"){ closeSheet(); return; }
   if(t.id==="cancel"||t.id==="vcancel"||t.id==="mcancel"){ closeSheet(); return; }
   if(t.id==="saveRec"){ saveRecord(); return; }
@@ -1751,6 +1906,7 @@ document.addEventListener("input", function(e){
 });
 document.addEventListener("keydown", function(e){
   if(e.target && e.target.id==="newClientName" && e.key==="Enter"){ e.preventDefault(); saveNewClient(); }
+  if(e.target && e.target.id && e.target.id.indexOf("au")===0 && e.key==="Enter"){ e.preventDefault(); authSubmit(); }
 });
 
 /* ---------------- mic ---------------- */
@@ -1766,6 +1922,11 @@ $("micBtn").onclick=function(){ openVoice(); };
 
 /* ---------------- boot ---------------- */
 (function boot(){
+  var users=getUsers();
+  if(!users.length){ showAuth("register"); return; }
+  if(!currentUser()){ showAuth("login"); return; }
+  document.getElementById("dock").style.display="";
+
   var d=load();
   if(!d){ d=JSON.parse(JSON.stringify(SEED)); d.records.forEach(function(r){ if(!r.id) r.id=uid(); }); state.data=d; save(); }
   if(!d.expenses) d.expenses=[];
