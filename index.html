@@ -1,0 +1,1097 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#eef3f9">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="业务账单">
+<title>业务账单</title>
+<link rel="icon" href="data:image/png;base64,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">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>
+  :root{
+    --bg:#eef3f9; --bg2:#e4ecf7; --card:#ffffff; --ink:#0e1b2b; --sub:#67788f;
+    --line:#e2eaf5; --cyan:#0891b2; --cyan2:#06b6d4; --cyan3:#22d3ee; --violet:#7c3aed;
+    --green:#0f9d70; --red:#e11d48; --amber:#b45309;
+    --shadow:0 10px 30px rgba(13,35,66,.07);
+    --shadow-sm:0 2px 8px rgba(13,35,66,.05);
+  }
+  @media (prefers-color-scheme:dark){
+    :root{ --bg:#0b1420; --bg2:#0e1a29; --card:#131f2e; --ink:#e6eef8; --sub:#8ea3bd;
+           --line:#22303f; --shadow:0 10px 30px rgba(0,0,0,.4); --shadow-sm:0 2px 8px rgba(0,0,0,.3); }
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;min-height:100%}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+    font-size:15px;line-height:1.5;
+    background-image:
+      radial-gradient(70% 40% at 8% -6%,rgba(34,211,238,.16),transparent 62%),
+      radial-gradient(60% 36% at 100% 6%,rgba(124,58,237,.10),transparent 60%);
+    background-attachment:fixed;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:100% 46px,46px 100%;opacity:.35;
+    mask-image:linear-gradient(#000 0 30%,transparent 68%);
+  }
+  .app{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:0 16px 96px;min-height:100vh}
+  .mono{font-variant-numeric:tabular-nums;font-feature-settings:"tnum";}
+
+  /* header */
+  header{padding:16px 0 4px}
+  .hdrow{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+  .h1{font-size:22px;font-weight:800;letter-spacing:-.4px;display:flex;align-items:center;gap:7px}
+  .h1 .dot{width:7px;height:7px;border-radius:50%;background:var(--cyan2);box-shadow:0 0 10px rgba(6,182,212,.8)}
+  .h1 .en{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--cyan);opacity:.8;margin-top:2px}
+  .hsub{font-size:10.5px;color:var(--sub);letter-spacing:1.6px;margin-top:4px;text-transform:uppercase}
+  .hactions{display:flex;gap:7px;align-items:center}
+  .iconbtn{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;
+    background:var(--card);border:1px solid var(--line);color:var(--cyan);box-shadow:var(--shadow-sm);cursor:pointer;font-family:inherit}
+  .iconbtn:active{transform:scale(.96)}
+
+  /* month bar */
+  .mbar{display:flex;align-items:center;gap:8px;margin:14px 0 12px}
+  .mbtn{width:28px;height:28px;border-radius:9px;background:var(--card);border:1px solid var(--line);
+    display:grid;place-items:center;color:var(--sub);font-size:14px;cursor:pointer;font-family:inherit;box-shadow:var(--shadow-sm)}
+  .mbtn:disabled{opacity:.4}
+  .mlabel{font-size:13.5px;font-weight:700;letter-spacing:.2px;display:flex;align-items:center;gap:6px;cursor:pointer}
+  .mlabel .y{font-size:10.5px;color:var(--sub);font-weight:600}
+  .chip{margin-left:auto;font-size:11px;font-weight:700;color:var(--cyan);background:rgba(8,145,178,.08);
+    border:1px solid rgba(8,145,178,.2);border-radius:8px;padding:4px 9px;cursor:pointer;font-family:inherit}
+
+  /* hero */
+  .hero{position:relative;padding:16px;border-radius:18px;overflow:hidden;
+    background:linear-gradient(150deg,#ffffff 0%,#f2fbff 55%,#eef4ff 100%);
+    border:1px solid rgba(8,145,178,.18);box-shadow:0 14px 34px rgba(13,60,90,.10)}
+  @media (prefers-color-scheme:dark){ .hero{background:linear-gradient(150deg,#152334,#122231 60%,#151f33)} }
+  .hero .cn{position:absolute;width:11px;height:11px;border:1.5px solid rgba(8,145,178,.45)}
+  .hero .c1{top:9px;left:9px;border-right:0;border-bottom:0;border-radius:4px 0 0 0}
+  .hero .c2{top:9px;right:9px;border-left:0;border-bottom:0;border-radius:0 4px 0 0}
+  .hero .c3{bottom:9px;left:9px;border-right:0;border-top:0;border-radius:0 0 0 4px}
+  .hero .c4{bottom:9px;right:9px;border-left:0;border-top:0;border-radius:0 0 4px 0}
+  .hlab{font-size:11px;color:var(--sub);letter-spacing:1.2px}
+  .hamt{font-size:34px;font-weight:800;letter-spacing:-1.4px;margin:4px 0 6px;
+    background:linear-gradient(120deg,#0b3b52,#0891b2 70%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  @media (prefers-color-scheme:dark){ .hamt{background:linear-gradient(120deg,#dff6ff,#67e8f9 70%);-webkit-background-clip:text;background-clip:text} }
+  .hamt i{font-style:normal;font-size:15px;margin-right:2px;-webkit-text-fill-color:var(--cyan)}
+  .delta{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 7px;border-radius:7px;
+    background:rgba(15,157,112,.1);color:var(--green);border:1px solid rgba(15,157,112,.2)}
+  .delta.neg{background:rgba(225,29,72,.09);color:var(--red);border-color:rgba(225,29,72,.18)}
+
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:12px}
+  .grid4>div{background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:11px;padding:7px 8px}
+  @media (prefers-color-scheme:dark){ .grid4>div{background:rgba(255,255,255,.04)} }
+  .grid4 b{display:block;font-size:14px;letter-spacing:-.2px}
+  .grid4 i{font-style:normal;font-size:10px;color:var(--sub)}
+  .grid4 .ok b{color:var(--green)}
+  .grid4 .no b{color:var(--red)}
+
+  /* group list */
+  .ghead{display:flex;align-items:center;justify-content:space-between;padding:14px 4px 7px}
+  .ghead .n{font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:6px}
+  .ghead .n s{width:3px;height:12px;border-radius:2px;background:linear-gradient(var(--cyan2),var(--violet));display:block}
+  .ghead .n em{font-style:normal;color:var(--sub);font-weight:500;font-size:10.5px}
+  .ghead .s{font-size:12px;color:var(--sub);font-weight:700}
+  .row{display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--line);
+    border-radius:12px;padding:11px 12px;margin-bottom:6px;box-shadow:var(--shadow-sm);cursor:pointer}
+  .row:active{background:var(--bg2)}
+  .row .pn{flex:1;min-width:0;font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .row .pn small{display:block;font-size:10.5px;color:var(--sub);font-weight:500;margin-top:1px}
+  .tag{font-size:10px;padding:2px 7px;border-radius:6px;font-weight:700;white-space:nowrap}
+  .tag.ok{color:var(--green);background:rgba(15,157,112,.1);border:1px solid rgba(15,157,112,.18)}
+  .tag.no{color:var(--red);background:rgba(225,29,72,.09);border:1px solid rgba(225,29,72,.16)}
+  .row .am{font-size:13.5px;font-weight:700;text-align:right;min-width:66px}
+
+  /* dock */
+  .dock{position:fixed;left:0;right:0;bottom:0;z-index:20;padding-bottom:env(safe-area-inset-bottom);
+    background:rgba(255,255,255,.86);backdrop-filter:blur(16px);border-top:1px solid var(--line)}
+  .dockin{display:flex;align-items:center;justify-content:space-between;max-width:520px;margin:0 auto;
+    height:64px;padding:0 20px}
+  @media (prefers-color-scheme:dark){ .dock{background:rgba(19,31,46,.9)} }
+  .dock .d{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9.5px;color:var(--sub);
+    width:56px;cursor:pointer;border:0;background:none;font-family:inherit;padding:0}
+  .dock .d.on{color:var(--cyan);font-weight:700}
+  .micwrap{width:56px;display:flex;justify-content:center}
+  .mic{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;margin-top:-24px;border:0;cursor:pointer;
+    background:linear-gradient(145deg,#22d3ee,#0891b2);color:#fff;
+    box-shadow:0 0 0 5px rgba(34,211,238,.14),0 8px 20px rgba(8,145,178,.35)}
+  .mic:active{transform:scale(.95)}
+
+  /* cards / analysis */
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:14px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+  .panel h3{margin:0 0 11px;font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:space-between}
+  .panel h3 span{font-size:10px;color:var(--sub);font-weight:600}
+  .kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:10px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:11px 12px;box-shadow:var(--shadow-sm)}
+  .kpi b{display:block;font-size:19px;letter-spacing:-.5px}
+  .kpi i{font-style:normal;font-size:10px;color:var(--sub);white-space:nowrap;display:block;overflow:hidden;text-overflow:ellipsis}
+  .ins{border:1px solid var(--line);border-left:3px solid var(--cyan2);border-radius:12px;padding:11px 12px;margin-bottom:8px;background:var(--card);box-shadow:var(--shadow-sm)}
+  .ins.warn{border-left-color:var(--red)}
+  .ins.good{border-left-color:var(--green)}
+  .ins .ih{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+  .ins .ih b{font-size:12.5px}
+  .ins .ih span{font-size:9.5px;color:var(--sub);font-weight:700;letter-spacing:.4px}
+  .ins p{margin:0;font-size:11.5px;color:var(--sub);line-height:1.65}
+  .ins p em{font-style:normal;font-weight:800;color:var(--ink)}
+  .ins p b{color:var(--cyan);font-weight:800}
+
+  /* compare */
+  .cmonths{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  .cmonth{flex:1;background:var(--card);border:1px solid rgba(8,145,178,.25);border-radius:12px;padding:9px;text-align:center;box-shadow:var(--shadow-sm)}
+  .cmonth.b{border-color:rgba(124,58,237,.22)}
+  .cmonth b{display:block;font-size:14px}
+  .cmonth span{font-size:9.5px;color:var(--sub)}
+  .swap{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--card);
+    display:grid;place-items:center;color:var(--sub);cursor:pointer;flex:0 0 30px;font-family:inherit}
+  .crow{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--line);font-size:11.5px}
+  .crow:last-child{border-bottom:0}
+  .crow .l{width:46px;color:var(--sub);flex:0 0 46px}
+  .crow .a{width:64px;text-align:right;font-weight:800}
+  .crow .b{width:64px;text-align:right;color:var(--sub)}
+  .crow .d{margin-left:auto;font-size:10px;font-weight:800;padding:2px 6px;border-radius:6px}
+  .d.up{color:var(--green);background:rgba(15,157,112,.1)}
+  .d.dn{color:var(--red);background:rgba(225,29,72,.09)}
+  .d.fl{color:var(--sub);background:var(--bg2)}
+  .cb{display:grid;grid-template-columns:84px 1fr 60px;align-items:center;gap:8px;margin-bottom:8px;font-size:11px}
+  .cb .nm{color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .cb .tr{height:13px;position:relative;overflow:hidden}
+  .cb .tr i{position:absolute;left:0;height:4px;border-radius:4px;display:block;max-width:100%}
+  .cb .tr i.a{top:1px;background:linear-gradient(90deg,#22d3ee,#0891b2)}
+  .cb .tr i.b{top:8px;background:rgba(124,58,237,.5)}
+  .cb .v{text-align:right;font-weight:800;font-size:10.5px;white-space:nowrap;overflow:hidden}
+
+  /* bars */
+  .bars{display:flex;align-items:flex-end;gap:5px;height:100px;margin-top:4px}
+  .bars .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:3px;height:100%}
+  .bars .col i{display:block;border-radius:3px}
+  .bars .col i.a{background:linear-gradient(180deg,#67e8f9,#0891b2)}
+  .bars .col i.b{background:rgba(124,58,237,.35)}
+  .xaxis{display:flex;gap:5px;margin-top:6px}
+  .xaxis span{flex:1;text-align:center;font-size:8.5px;color:var(--sub);white-space:nowrap}
+
+  /* sheet */
+  .mask{position:fixed;inset:0;background:rgba(9,20,34,.42);opacity:0;pointer-events:none;transition:.2s;z-index:40;backdrop-filter:blur(2px)}
+  .mask.on{opacity:1;pointer-events:auto}
+  .sheet{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--card);
+    border-radius:22px 22px 0 0;padding:8px 18px calc(18px + env(safe-area-inset-bottom));
+    transform:translateY(102%);transition:transform .26s cubic-bezier(.32,.72,0,1);
+    max-height:92vh;overflow:auto;max-width:520px;margin:0 auto;box-shadow:0 -12px 40px rgba(9,20,34,.18)}
+  .sheet.on{transform:none}
+  .grab{width:38px;height:4px;border-radius:99px;background:var(--line);margin:6px auto 14px}
+  .sheet h2{margin:0 0 14px;font-size:16px;display:flex;align-items:center;justify-content:space-between}
+  .sheet h2 span{font-size:11px;color:var(--sub);font-weight:600}
+  .flab{font-size:11px;color:var(--sub);margin:0 2px 7px;display:flex;justify-content:space-between}
+  .chips{display:flex;gap:7px;overflow-x:auto;padding-bottom:8px;margin-bottom:8px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip2{flex:0 0 auto;border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:6px 11px;
+    font-size:11.5px;font-weight:600;color:var(--sub);white-space:nowrap;cursor:pointer;font-family:inherit}
+  .chip2.on{border-color:var(--cyan);color:var(--cyan);background:rgba(8,145,178,.08);font-weight:700}
+  .frow{display:flex;align-items:center;gap:10px;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:10px 12px;margin-bottom:8px}
+  .frow label{font-size:11.5px;color:var(--sub);width:44px;flex:0 0 44px}
+  .frow input,.frow select{border:0;background:transparent;color:var(--ink);font-size:13.5px;font-family:inherit;
+    font-weight:600;width:100%;outline:none}
+  .frow input::placeholder{color:#a9b7c9;font-weight:500}
+  .amount{display:flex;align-items:baseline;gap:7px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:8px}
+  .amount span{font-size:19px;font-weight:800;color:var(--sub)}
+  .amount input{border:0;background:transparent;outline:none;font-family:inherit;color:var(--ink);
+    font-size:28px;font-weight:800;letter-spacing:-1px;width:100%}
+  .seg{display:flex;gap:7px;margin-bottom:8px}
+  .seg button{flex:1;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:9px;
+    font-size:12.5px;font-weight:700;color:var(--sub);cursor:pointer;font-family:inherit}
+  .seg button.on{border-color:var(--green);color:var(--green);background:rgba(15,157,112,.08)}
+  .seg button.on.no{border-color:var(--red);color:var(--red);background:rgba(225,29,72,.07)}
+  .profit{display:flex;justify-content:space-between;font-size:11.5px;color:var(--sub);padding:2px 3px 12px}
+  .profit b{color:var(--green);font-size:13px}
+  .acts{display:flex;gap:9px}
+  .btn{flex:1;border:0;border-radius:12px;padding:13px;font-size:14.5px;font-weight:800;cursor:pointer;font-family:inherit}
+  .btn.primary{background:linear-gradient(135deg,#22d3ee,#0891b2);color:#fff;box-shadow:0 10px 22px rgba(8,145,178,.28)}
+  .btn.ghost{background:var(--bg);color:var(--sub);flex:0 0 92px;border:1px solid var(--line)}
+  .btn.danger{background:rgba(225,29,72,.08);color:var(--red);flex:0 0 92px}
+
+  /* voice */
+  .vwrap{display:flex;flex-direction:column;align-items:center;padding:2px 0 6px}
+  .vstat{font-size:10.5px;letter-spacing:2.5px;color:var(--sub);text-transform:uppercase;margin-bottom:12px}
+  .vorb{width:118px;height:118px;border-radius:50%;display:grid;place-items:center;position:relative;
+    background:radial-gradient(circle at 35% 30%,#a5f3fc,#0891b2 72%);color:#fff;
+    box-shadow:0 0 0 10px rgba(34,211,238,.12),0 0 34px rgba(8,145,178,.35);margin-bottom:14px;cursor:pointer}
+  .vorb.rec{animation:pulse 1.6s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 10px rgba(34,211,238,.16),0 0 34px rgba(8,145,178,.4)}
+    70%{box-shadow:0 0 0 26px rgba(34,211,238,0),0 0 34px rgba(8,145,178,.2)}
+    100%{box-shadow:0 0 0 10px rgba(34,211,238,.16),0 0 34px rgba(8,145,178,.4)}}
+  .vwave{display:flex;align-items:center;gap:3px;height:26px;margin-bottom:10px;opacity:.25}
+  .vwave.on{opacity:1}
+  .vwave i{width:3px;border-radius:3px;background:linear-gradient(#22d3ee,#0891b2)}
+  .vtext{width:100%;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:11px 12px;
+    font-family:inherit;font-size:14px;color:var(--ink);outline:none;resize:none;min-height:64px;line-height:1.6}
+  .vhint{font-size:10.5px;color:var(--sub);margin:7px 2px 12px;line-height:1.6}
+  .parsed{border:1px solid var(--line);border-radius:12px;padding:4px 12px;margin-bottom:12px;background:var(--card)}
+  .prow{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px}
+  .prow:last-child{border-bottom:0}
+  .prow label{width:46px;flex:0 0 46px;color:var(--sub);font-size:11px}
+  .prow b{font-weight:700}
+  .prow .state{margin-left:auto;font-size:10px;font-weight:700}
+  .prow .state.ok{color:var(--green)}
+  .prow .state.no{color:var(--red)}
+
+  /* month grid */
+  .mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
+  .mgrid button{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 0;
+    font-size:12.5px;font-weight:700;color:var(--sub);cursor:pointer;font-family:inherit}
+  .mgrid button.on{border-color:var(--cyan);color:var(--cyan);background:rgba(8,145,178,.08)}
+
+  .empty{text-align:center;color:var(--sub);padding:38px 12px;font-size:12.5px}
+  .empty b{display:block;color:var(--ink);margin-bottom:4px;font-size:13.5px}
+  .tools{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0 4px}
+  .tools button{border:1px solid var(--line);background:var(--card);color:var(--sub);border-radius:9px;
+    padding:7px 11px;font-size:11.5px;font-weight:600;cursor:pointer;font-family:inherit}
+  .toast{position:fixed;left:50%;bottom:84px;transform:translate(-50%,10px);background:rgba(14,27,43,.92);color:#fff;
+    font-size:12.5px;padding:9px 15px;border-radius:99px;opacity:0;pointer-events:none;transition:.2s;z-index:60}
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+
+<nav class="dock" id="dock"><div class="dockin">
+  <button class="d on" data-tab="list">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h5"/></svg>
+    账单
+  </button>
+  <button class="d" data-tab="compare">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V9M10 19V5M16 19v-7"/><path d="M2 19h20"/></svg>
+    对比
+  </button>
+  <div class="micwrap">
+    <button class="mic" id="micBtn" aria-label="语音记账">
+      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><path d="M12 18v3"/></svg>
+    </button>
+  </div>
+  <button class="d" data-tab="stats">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg>
+    分析
+  </button>
+  <button class="d" data-tab="clients">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M16 6.5a3 3 0 010 5.6"/></svg>
+    客户
+  </button>
+</div></nav>
+
+<div class="mask" id="mask"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+/* ============================================================
+   业务账单 · 单文件应用
+   数据：localStorage（首次运行写入表格导入的数据）
+   ============================================================ */
+var SEED = {"clients":["华越（郭总）","聪","李光","邓","何老师（何建）","大姐","王苏","刘光","杨总（杨宁）","宋老板","王萌","王龙","雨哲","小师弟","原龙","绒会","酒业协会","1111","南京","俞导","杨老板","宫老师","学峰"],"records":[],"year":2026};
+
+var KEY = "biz.ledger.v2";
+var state = {
+  tab: "list",
+  month: "",        // "2026-10"
+  data: null,       // {clients:[], records:[]}
+  editing: null,
+  voice: null
+};
+
+/* ---------------- utils ---------------- */
+function $(id){ return document.getElementById(id); }
+function pad2(n){ return n<10 ? "0"+n : ""+n; }
+function today(){ var d=new Date(); return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate()); }
+function curMonth(){ return today().slice(0,7); }
+function monthOf(dateStr){ return dateStr.slice(0,7); }
+function shiftMonth(m, n){
+  var p=m.split("-"), d=new Date(Number(p[0]), Number(p[1])-1+n, 1);
+  return d.getFullYear()+"-"+pad2(d.getMonth()+1);
+}
+function monthLabel(m){ var p=m.split("-"); return p[0]+" 年 "+Number(p[1])+" 月"; }
+function monthShort(m){ return Number(m.split("-")[1])+"月"; }
+function num(n){ return Math.round((Number(n)||0)*100)/100; }
+function money(n, dec){
+  var v=num(n), s;
+  if(dec===false || (Math.abs(v-Math.round(v))<0.005 && dec!==true)){
+    s=String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g,",");
+  } else {
+    s=v.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,",");
+  }
+  return "¥"+s;
+}
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+function toast(msg){
+  var t=$("toast"); t.textContent=msg; t.classList.add("on");
+  clearTimeout(toast._t); toast._t=setTimeout(function(){t.classList.remove("on");},1700);
+}
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+
+/* ---------------- storage ---------------- */
+function load(){
+  try{
+    var raw=localStorage.getItem(KEY);
+    if(raw){ var d=JSON.parse(raw); if(d && Array.isArray(d.records)) return d; }
+  }catch(e){}
+  return null;
+}
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(state.data)); localStorage.setItem("biz.ui.month", state.month||""); }
+  catch(e){ toast("保存失败：空间不足"); }
+}
+function resetData(){
+  state.data = JSON.parse(JSON.stringify(SEED));
+  state.data.records.forEach(function(r){ if(!r.id) r.id=uid(); });
+  save();
+}
+
+/* ---------------- queries ---------------- */
+function recs(){ return state.data.records; }
+function monthRecs(m){ return recs().filter(function(r){ return monthOf(r.date)===m; }); }
+function sum(arr, f){ return num(arr.reduce(function(s,r){ return s+(f?f(r):r.amount); },0)); }
+function statsOf(m){
+  var a=monthRecs(m);
+  var total=sum(a), paid=sum(a.filter(function(r){return r.paid;}));
+  var unpaid=num(total-paid);
+  return { total:total, paid:paid, unpaid:unpaid, count:a.length,
+           rate: total? paid/total : 0 };
+}
+function yearRecs(y){ return recs().filter(function(r){ return r.date.slice(0,4)==String(y); }); }
+function clientTotal(name){
+  var a=recs().filter(function(r){ return r.client===name; });
+  var total=sum(a), paid=sum(a.filter(function(r){return r.paid;}));
+  return { total:total, paid:paid, unpaid:num(total-paid), count:a.length };
+}
+function allMonths(){
+  var set={};
+  recs().forEach(function(r){ set[monthOf(r.date)]=1; });
+  set[state.month]=1;
+  return Object.keys(set).sort();
+}
+
+/* ---------------- voice parsing ---------------- */
+var CN_DIGIT = {"零":0,"〇":0,"一":1,"壹":1,"二":2,"两":2,"三":3,"四":4,"五":5,"六":6,"七":7,"八":8,"九":9};
+function cnToNum(str){
+  str = String(str||"").replace(/[０-９]/g,function(d){ return String("０１２３４５６７８９".indexOf(d)); }).replace(/\s/g,"");
+  if(/^\d+(\.\d+)?$/.test(str)) return parseFloat(str);
+  var total=0, section=0, num=0, lastUnit=1, sawZero=false;
+  for(var i=0;i<str.length;i++){
+    var ch=str[i];
+    if(CN_DIGIT[ch]!==undefined){
+      if(CN_DIGIT[ch]===0) sawZero=true;
+      num=CN_DIGIT[ch];
+    } else if(ch==="十"||ch==="百"||ch==="千"){
+      var u = ch==="十"?10:ch==="百"?100:1000;
+      if(num===0 && !sawZero) num=1;
+      section += num*u; num=0; lastUnit=u; sawZero=false;
+    } else if(ch==="万"){
+      section += num; total += (section||1)*10000; section=0; num=0; lastUnit=10000; sawZero=false;
+    }
+  }
+  if(num){
+    if(!sawZero && lastUnit>=100 && num<10) section += num*(lastUnit/10);
+    else section += num;
+  }
+  return total+section;
+}
+
+var ALIAS = {
+  "郭总":"华越（郭总）","郭老板":"华越（郭总）","华越":"华越（郭总）",
+  "杨宁":"杨总（杨宁）","杨总":"杨总（杨宁）",
+  "何建":"何老师（何建）","何老师":"何老师（何建）",
+  "大姐":"大姐","姐":"大姐","聪":"聪","雨哲":"雨哲","王龙":"王龙","宋老板":"宋老板",
+  "酒业协会":"酒业协会","王苏":"王苏","王萌":"王萌","李光":"李光","绒会":"绒会",
+  "原龙":"原龙","小师弟":"小师弟","邓":"邓","刘光":"刘光","俞导":"俞导","南京":"南京",
+  "学峰":"学峰","宫老师":"宫老师","杨老板":"杨老板","1111":"1111"
+};
+
+function parseVoice(text){
+  var raw = String(text||"").trim();
+  var s = raw.replace(/\s+/g," ");
+  var out = { client:"", amount:0, date: today(), paid:true, project:"", raw: raw };
+
+  // 状态
+  if(/未收|没收|没给|没付|欠|还没|未结|没结|没到账/.test(s)) out.paid=false;
+  if(/已收|收到|到账|结清|付了|给了|收了|已付/.test(s)) out.paid=true;
+
+  // 日期：x月y号 / x月 / 上个月 / 今天
+  var dateText = "";
+  var m = s.match(/(?:(\d{4})\s*年)?\s*([一二三四五六七八九十\d]{1,3})\s*月\s*(?:([一二三四五六七八九十\d]{1,3})\s*[号日])?/);
+  if(m){
+    var y = m[1] ? Number(m[1]) : Number(today().slice(0,4));
+    var mo = cnToNum(m[2]);
+    var day = m[3] ? cnToNum(m[3]) : 1;
+    if(mo>=1 && mo<=12 && day>=1 && day<=31){
+      out.date = y+"-"+pad2(mo)+"-"+pad2(day);
+      dateText = m[0];
+    }
+  } else if(/上个月|上月/.test(s)){
+    out.date = shiftMonth(curMonth(),-1)+"-01";
+  } else if(/今天/.test(s)){
+    out.date = today();
+  } else if(/昨天/.test(s)){
+    var d=new Date(); d.setDate(d.getDate()-1);
+    out.date = d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate());
+  }
+
+  // 客户：长名优先
+  var best="", bestLen=0;
+  Object.keys(ALIAS).forEach(function(k){
+    if(s.indexOf(k)>=0 && k.length>bestLen){ best=ALIAS[k]; bestLen=k.length; }
+  });
+  if(best) out.client=best;
+
+  // 金额：优先带「元/块」
+  var amtText="";
+  var am = s.match(/([零〇一二三四五六七八九十百千万两\d]+(?:\.\d+)?)\s*(?:元|块钱|块)/);
+  if(am){
+    out.amount=cnToNum(am[1]); amtText=am[0];
+  } else {
+    // 去掉日期后找最大的数
+    var rest = s.replace(dateText," ");
+    var cands = rest.match(/[零〇一二三四五六七八九十百千万两\d]+(?:\.\d+)?/g)||[];
+    var bestV=0, bestS="";
+    cands.forEach(function(c){
+      var v=cnToNum(c);
+      if(v>=1 && v>bestV){ bestV=v; bestS=c; }
+    });
+    if(bestV>0){ out.amount=bestV; amtText=bestS; }
+  }
+  out.amount = num(out.amount);
+
+  // 项目：剩余文字
+  var rest2 = s;
+  [dateText, amtText].forEach(function(x){ if(x) rest2=rest2.split(x).join(" "); });
+  if(best){ rest2 = rest2.split(best).join(" "); Object.keys(ALIAS).forEach(function(k){ if(ALIAS[k]===best) rest2=rest2.split(k).join(" "); }); }
+  rest2 = rest2.replace(/已收|未收|收到|到账|结清|没收|付了|给了|收了|没给|没付|欠着|还没|今天|昨天|上个月|上月/g," ");
+  rest2 = rest2.replace(/记账|记一笔|收入|块钱|块钱|元|块/g," ");
+  rest2 = rest2.replace(/\s+/g," ").trim();
+  out.project = rest2.length>1 ? rest2 : "";
+
+  // 没匹配到客户：把剩余文字里第一个像人名的词当新客户
+  if(!out.client){
+    var EX=["拍摄","剪辑","后期","项目","制作","宣传片","花絮","活动","视频","直播","拍照","摄影","跟拍","导播","调色","包装"];
+    var toks = out.project.split(" ").filter(function(x){ return x; });
+    for(var i=0;i<toks.length;i++){
+      var tk=toks[i];
+      if(/^[\u4e00-\u9fa5]{2,6}$/.test(tk) && EX.indexOf(tk)<0){
+        out.newClient = tk;
+        toks.splice(i,1);
+        out.project = toks.join(" ");
+        break;
+      }
+    }
+  }
+  return out;
+}
+
+/* ---------------- render: list ---------------- */
+function renderList(){
+  var st=statsOf(state.month), prev=statsOf(shiftMonth(state.month,-1));
+  var diff = prev.total ? (st.total-prev.total)/prev.total : 0;
+  var list=monthRecs(state.month).sort(function(a,b){ return a.date<b.date?-1:1; });
+  if(state.clientFilter) list=list.filter(function(r){ return r.client===state.clientFilter; });
+
+  var groups={}, order=[];
+  list.forEach(function(r){
+    if(!groups[r.client]){ groups[r.client]=[]; order.push(r.client); }
+    groups[r.client].push(r);
+  });
+  order.sort(function(a,b){ return sum(groups[b]) - sum(groups[a]); });
+
+  var html = header("业务账单","BUSINESS LEDGER · "+state.month.replace("-"," / "), "");
+  html += monthBar(st);
+  if(state.clientFilter){
+    html += '<div style="display:flex;align-items:center;gap:8px;margin:-4px 0 10px">'+
+      '<span style="font-size:11px;color:var(--sub)">只看</span>'+
+      '<button id="clearFilter" style="border:1px solid rgba(8,145,178,.25);background:rgba(8,145,178,.08);color:var(--cyan);'+
+      'border-radius:8px;padding:4px 9px;font-size:11.5px;font-weight:700;font-family:inherit;cursor:pointer">'+esc(state.clientFilter)+' ✕</button></div>';
+  }
+
+  html += '<section class="hero">'+
+    '<span class="cn c1"></span><span class="cn c2"></span><span class="cn c3"></span><span class="cn c4"></span>'+
+    '<div class="hlab">本月应收合计</div>'+
+    '<div class="hamt mono"><i>¥</i>'+money(st.total,true).slice(1)+'</div>'+
+    (prev.total? '<div class="delta '+(diff<0?"neg":"")+'">'+(diff>=0?"▲":"▼")+' '+Math.abs(diff*100).toFixed(1)+'% vs '+monthShort(shiftMonth(state.month,-1))+'</div>':'')+
+    '<div class="grid4">'+
+      '<div class="ok"><b class="mono">'+money(st.paid)+'</b><i>已收</i></div>'+
+      '<div class="no"><b class="mono">'+money(st.unpaid)+'</b><i>未收</i></div>'+
+      '<div><b class="mono">'+st.count+'</b><i>项目</i></div>'+
+      '<div><b class="mono">'+Math.round(st.rate*100)+'%</b><i>回款率</i></div>'+
+    '</div></section>';
+
+  if(!list.length){
+    html += '<div class="empty"><b>这个月还没有记录</b>点底部的麦克风说一句，或点右上角 ＋ 手动记</div>';
+  } else {
+    order.forEach(function(c){
+      var items=groups[c], ct=sum(items), unpaid=sum(items.filter(function(r){return !r.paid;}));
+      html += '<div class="ghead"><div class="n"><s></s>'+esc(c)+'<em>'+items.length+' 笔</em></div>'+
+              '<div class="s mono">'+money(ct)+(unpaid?' · 未收 '+money(unpaid):'')+'</div></div>';
+      items.forEach(function(r){
+        html += '<div class="row" data-id="'+r.id+'">'+
+          '<div class="pn">'+(r.project? esc(r.project) : '<span style="color:var(--sub);font-weight:500">未填项目</span>')+
+            '<small>'+r.date.slice(5).replace("-","/")+(r.cost? " · 成本 "+money(r.cost):"")+'</small></div>'+
+          '<div class="tag '+(r.paid?"ok":"no")+'">'+(r.paid?"已收":"未收")+'</div>'+
+          '<div class="am mono">'+money(r.amount)+'</div></div>';
+      });
+    });
+  }
+  return html;
+}
+
+function monthBar(st){
+  return '<div class="mbar">'+
+    '<button class="mbtn" id="prevM">‹</button>'+
+    '<div class="mlabel" id="monthPick">'+monthLabel(state.month)+'</div>'+
+    '<button class="mbtn" id="nextM" '+(state.month>=curMonth()?'disabled':'')+'>›</button>'+
+    '<button class="chip" id="toCompare">对比上月 →</button></div>';
+}
+
+function header(title, sub, right){
+  return '<header><div class="hdrow"><div>'+
+    '<div class="h1"><span class="dot"></span>'+esc(title)+'</div>'+
+    '<div class="hsub">'+esc(sub)+'</div></div>'+
+    '<div class="hactions">'+(right||'')+
+      '<button class="iconbtn" id="addBtn" title="手动记一笔"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></button>'+
+    '</div></div></header>';
+}
+
+/* ---------------- render: compare ---------------- */
+function renderCompare(){
+  var A = state.compareA || state.month;
+  var B = state.compareB || shiftMonth(A,-1);
+  var sa=statsOf(A), sb=statsOf(B);
+
+  function d(cur, prev, goodUp){
+    if(!prev) return '<span class="d fl">—</span>';
+    var pct=(cur-prev)/prev*100;
+    if(Math.abs(pct)<0.05) return '<span class="d fl">0%</span>';
+    var up=pct>0, good = goodUp? up : !up;
+    return '<span class="d '+(good?"up":"dn")+'">'+(up?"+":"−")+Math.abs(pct).toFixed(1)+'%</span>';
+  }
+  function row(label, a, b, goodUp, isRate, isCount){
+    var va = isRate? Math.round(a*100)+"%" : isCount? String(a) : money(a);
+    var vb = isRate? Math.round(b*100)+"%" : isCount? String(b) : money(b);
+    var deltaHtml = isRate
+      ? '<span class="d '+((a-b)>=0?(goodUp?"up":"dn"):(goodUp?"dn":"up"))+'">'+((a-b)>=0?"+":"−")+Math.abs((a-b)*100).toFixed(0)+'pt</span>'
+      : d(a,b,goodUp);
+    return '<div class="crow"><span class="l">'+label+'</span><span class="a mono">'+
+      (isRate||isCount?va:va.slice(1))+'</span><span class="b mono">'+(isRate||isCount?vb:vb.slice(1))+'</span>'+deltaHtml+'</div>';
+  }
+
+  var html = header("月份对比","COMPARE · 本期 vs 对比期","");
+  html += '<div class="cmonths">'+
+    '<div class="cmonth" id="pickA"><b>'+monthShort(A)+'</b><span>本期</span></div>'+
+    '<button class="swap" id="swap">'+
+      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg></button>'+
+    '<div class="cmonth b" id="pickB"><b>'+monthShort(B)+'</b><span>对比期</span></div></div>';
+
+  html += '<div class="panel" style="padding:4px 14px">'+
+    row("应收", sa.total, sb.total, true)+
+    row("已收", sa.paid, sb.paid, true)+
+    row("未收", sa.unpaid, sb.unpaid, false)+
+    row("笔数", sa.count, sb.count, true, false, true)+
+    row("回款率", sa.rate, sb.rate, true, true)+
+    '</div>';
+
+  // 客户增减
+  var mapA={}, mapB={};
+  monthRecs(A).forEach(function(r){ mapA[r.client]=(mapA[r.client]||0)+num(r.amount); });
+  monthRecs(B).forEach(function(r){ mapB[r.client]=(mapB[r.client]||0)+num(r.amount); });
+  var names={}; Object.keys(mapA).forEach(function(k){names[k]=1;}); Object.keys(mapB).forEach(function(k){names[k]=1;});
+  var diffs=Object.keys(names).map(function(k){ return {name:k, a:mapA[k]||0, b:mapB[k]||0, d:num((mapA[k]||0)-(mapB[k]||0))}; })
+    .filter(function(x){ return Math.abs(x.d)>=0.01; })
+    .sort(function(x,y){ return Math.abs(y.d)-Math.abs(x.d); }).slice(0,6);
+  var maxAbs = diffs.reduce(function(m,x){ return Math.max(m, Math.abs(x.d)); }, 1);
+
+  html += '<div class="panel"><h3>客户增减 <span>青=本期 · 紫=对比期</span></h3>';
+  if(!diffs.length) html += '<div class="empty" style="padding:16px">两个月金额一致</div>';
+  diffs.forEach(function(x){
+    html += '<div class="cb"><div class="nm">'+esc(x.name)+'</div><div class="tr">'+
+      '<i class="a" style="width:'+(x.a/maxAbs*100).toFixed(1)+'%"></i>'+
+      '<i class="b" style="width:'+(x.b/maxAbs*100).toFixed(1)+'%"></i></div>'+
+      '<div class="v mono" style="color:'+(x.d>=0?"var(--green)":"var(--red)")+'">'+(x.d>0?"+":"")+money(x.d).replace("¥","")+'</div></div>';
+  });
+  html += '</div>';
+
+  // 结论
+  var conclusion = compareConclusion(A,B,sa,sb,diffs);
+  html += '<div class="panel"><h3>结论 <span>自动生成</span></h3><p style="margin:0;font-size:11.5px;color:var(--sub);line-height:1.7">'+conclusion+'</p></div>';
+  return html;
+}
+
+function compareConclusion(A,B,sa,sb,diffs){
+  var parts=[];
+  if(sb.total){
+    var pct=(sa.total-sb.total)/sb.total*100;
+    parts.push(monthShort(A)+"应收 "+money(sa.total)+"，环比"+(pct>=0?"增长":"下降")+" "+Math.abs(pct).toFixed(1)+"%");
+  } else {
+    parts.push(monthShort(A)+"应收 "+money(sa.total));
+  }
+  var up=diffs.filter(function(x){return x.d>0;})[0];
+  var down=diffs.filter(function(x){return x.d<0;})[0];
+  if(up) parts.push("主要来自 <b>"+esc(up.name)+"</b>（+"+money(up.d).slice(1)+"）");
+  if(down) parts.push("<b>"+esc(down.name)+"</b> 减少 "+money(Math.abs(down.d)).slice(1));
+  if(sb.count) parts.push("回款率 "+Math.round(sb.rate*100)+"% → "+Math.round(sa.rate*100)+"%");
+  return parts.join("；")+"。";
+}
+
+/* ---------------- render: stats ---------------- */
+function renderStats(){
+  var y=state.month.slice(0,4);
+  var yr=yearRecs(y);
+  var total=sum(yr), paid=sum(yr.filter(function(r){return r.paid;})), unpaid=num(total-paid);
+  var rate = total? paid/total : 0;
+  var avg = yr.length? total/yr.length : 0;
+  var unpaidClients = {};
+  yr.forEach(function(r){ if(!r.paid) unpaidClients[r.client]=(unpaidClients[r.client]||0)+num(r.amount); });
+  var topUnpaid = Object.keys(unpaidClients).map(function(k){return {n:k,v:unpaidClients[k]};})
+    .sort(function(a,b){return b.v-a.v;})[0];
+  var byClient={}; yr.forEach(function(r){ byClient[r.client]=(byClient[r.client]||0)+num(r.amount); });
+  var sortedC=Object.keys(byClient).map(function(k){return {n:k,v:byClient[k]};}).sort(function(a,b){return b.v-a.v;});
+  var top1 = sortedC[0]? sortedC[0].v/total : 0;
+  var top3 = sortedC.slice(0,3).reduce(function(s,x){return s+x.v;},0)/(total||1);
+
+  var st=statsOf(state.month), prev=statsOf(shiftMonth(state.month,-1));
+  var ring = prev.total? (st.total-prev.total)/prev.total : 0;
+
+  // 单价结构
+  var buckets={};
+  yr.forEach(function(r){ buckets[r.amount]=(buckets[r.amount]||0)+1; });
+  var topAmt=Object.keys(buckets).map(function(k){return {a:Number(k),c:buckets[k]};}).sort(function(x,y){return y.c-x.c;})[0];
+
+  var html = header("经营分析","AI INSIGHT · "+y+" 年","");
+
+  html += '<div class="kpis">'+
+    '<div class="kpi"><b class="mono">'+Math.round(rate*100)+'%</b><i>全年回款率</i></div>'+
+    '<div class="kpi"><b class="mono">'+money(avg)+'</b><i>平均单笔 · '+yr.length+' 笔</i></div>'+
+    '<div class="kpi"><b class="mono">'+Object.keys(unpaidClients).length+'</b><i>未结清客户</i></div>'+
+    '<div class="kpi"><b class="mono">'+Math.round(top1*100)+'%</b><i>最大客户占比</i></div>'+
+  '</div>';
+
+  html += '<div class="ins warn"><div class="ih"><b>回款风险</b><span>优先处理</span></div><p>'+
+    (topUnpaid? '欠款最多的是 <em>'+esc(topUnpaid.n)+'</em>，未收 <em>'+money(topUnpaid.v)+'</em>，占全部欠款 '+Math.round(topUnpaid.v/(unpaid||1)*100)+'%。'
+      : '目前没有未收款项。')+'</p></div>';
+
+  html += '<div class="ins '+(ring>=0?"good":"warn")+'"><div class="ih"><b>环比变化</b><span>'+
+    (ring>=0?"+":"")+(ring*100).toFixed(1)+'%</span></div><p>'+
+    monthShort(state.month)+'应收 <b>'+money(st.total)+'</b>，'+
+    (prev.total? '上月 '+money(prev.total)+'，'+(ring>=0?'增加':'减少')+' '+money(Math.abs(st.total-prev.total)) : '上月无记录')+
+    '；本月已收 '+Math.round(st.rate*100)+'%，未收 <b>'+money(st.unpaid)+'</b>。</p></div>';
+
+  html += '<div class="ins"><div class="ih"><b>客户集中度</b><span>'+(top1>0.4?'偏高':'健康')+'</span></div><p>'+
+    (sortedC[0]? '最大客户 <em>'+esc(sortedC[0].n)+'</em> 占全年 '+Math.round(top1*100)+'%，前 3 家合计占 <b>'+Math.round(top3*100)+'%</b>。'
+      + (top1>0.4? ' 建议把新客户做成第二增长点。':'') : '暂无数据')+'</p></div>';
+
+  if(topAmt){
+    html += '<div class="ins good"><div class="ih"><b>单价结构</b><span>最常见</span></div><p>'+
+      '出现最多的是 <em>'+money(topAmt.a)+'</em>，共 '+topAmt.c+' 笔，占 '+Math.round(topAmt.c/yr.length*100)+'%。'+
+      ' 可固定成「标准价」，记账更快。</p></div>';
+  }
+
+  // 12 个月柱状
+  var months=[]; for(var i=11;i>=0;i--) months.push(shiftMonth(state.month,-i));
+  var vals=months.map(function(m){
+    var a=monthRecs(m); return { t:sum(a), p:sum(a.filter(function(r){return r.paid;})) };
+  });
+  var max=Math.max.apply(null, vals.map(function(v){return v.t;}).concat([1]));
+  html += '<div class="panel"><h3>近 12 个月 <span>青=已收 · 紫=未收</span></h3><div class="bars">';
+  vals.forEach(function(v,i){
+    var h=(v.t/max)*78, hp=(v.p/max)*78;
+    html += '<div class="col">'+
+      '<i class="a" style="height:'+Math.max(hp,0.5).toFixed(1)+'px"></i>'+
+      '<i class="b" style="height:'+Math.max(h-hp,0.5).toFixed(1)+'px"></i></div>';
+  });
+  html += '</div><div class="xaxis">';
+  months.forEach(function(m){ html += '<span>'+(Number(m.split("-")[1]))+'</span>'; });
+  html += '</div></div>';
+
+  return html;
+}
+
+/* ---------------- render: clients ---------------- */
+function renderClients(){
+  var names={};
+  state.data.clients.forEach(function(c){ names[c]=1; });
+  recs().forEach(function(r){ names[r.client]=1; });
+  var list=Object.keys(names).map(function(n){
+    var c=clientTotal(n);
+    var last=recs().filter(function(r){return r.client===n;}).sort(function(a,b){return a.date<b.date?1:-1;})[0];
+    return { name:n, total:c.total, unpaid:c.unpaid, count:c.count, last: last? monthOf(last.date):"" };
+  }).sort(function(a,b){ return b.total-a.total; });
+
+  var html = header("客户","CLIENTS · "+list.length+" 位","");
+  var totalAll=sum(recs()), unpaidAll=sum(recs().filter(function(r){return !r.paid;}));
+  html += '<div class="kpis" style="grid-template-columns:repeat(3,1fr)">'+
+    '<div class="kpi"><b class="mono">'+list.length+'</b><i>客户数</i></div>'+
+    '<div class="kpi"><b class="mono">'+money(totalAll)+'</b><i>累计收入</i></div>'+
+    '<div class="kpi"><b class="mono" style="color:var(--red)">'+money(unpaidAll)+'</b><i>未收合计</i></div>'+
+  '</div>';
+
+  list.forEach(function(c){
+    html += '<div class="row" data-client="'+esc(c.name)+'">'+
+      '<div class="pn">'+esc(c.name)+'<small>'+c.count+' 个项目'+(c.last?' · 最近 '+Number(c.last.split("-")[1])+' 月':'')+'</small></div>'+
+      '<div style="text-align:right">'+
+        '<div class="am mono">'+money(c.total)+'</div>'+
+        '<div style="font-size:10px;font-weight:700;color:'+(c.unpaid?'var(--red)':'var(--sub)')+'">'+(c.unpaid?'未收 '+money(c.unpaid):'已结清')+'</div>'+
+      '</div></div>';
+  });
+
+  html += '<div class="tools"><button id="addClient">＋ 新增客户</button>'+
+    '<button id="expCsv">导出 CSV</button><button id="expJson">备份</button>'+
+    '<button id="impJson">恢复</button><button id="resetSeed">重置为表格数据</button></div>'+
+    '<input type="file" id="fileInput" accept="application/json,.json" hidden>';
+  return html;
+}
+
+/* ---------------- sheets ---------------- */
+function openSheet(html){ $("sheet").innerHTML=html; $("sheet").classList.add("on"); $("mask").classList.add("on"); }
+function closeSheet(){ $("sheet").classList.remove("on"); $("mask").classList.remove("on"); state.editing=null; state.voice=null; }
+
+function openEdit(rec){
+  var r = rec || { id:"", client:"", project:"", amount:"", date: today(), paid:true, cost:0 };
+  state.editing = { id:r.id, client:r.client, project:r.project, amount:r.amount, date:r.date, paid:r.paid, cost:r.cost };
+  var clients = state.data.clients.slice();
+  if(r.client && clients.indexOf(r.client)<0) clients.unshift(r.client);
+  if(r.client){ clients = clients.filter(function(x){return x!==r.client;}); clients.unshift(r.client); }
+
+  var html = '<div class="grab"></div><h2>'+(r.id?'编辑':'记一笔')+'<span>'+ (r.id?'点金额可直接改':'说一句更快，点下方麦克风') +'</span></h2>';
+  html += '<div class="flab"><span>客户 / 介绍人</span><span>共 '+clients.length+' 位</span></div>';
+  html += '<div class="chips" id="clientChips">';
+  clients.forEach(function(c){
+    html += '<button class="chip2 '+(c===r.client?'on':'')+'" data-c="'+esc(c)+'">'+esc(c)+'</button>';
+  });
+  html += '</div>';
+  html += '<div class="frow"><label>项目</label><input id="fProject" placeholder="如：0315 当当暖场视频" value="'+esc(r.project)+'"></div>';
+  html += '<div class="amount"><span>¥</span><input id="fAmount" inputmode="decimal" placeholder="0.00" value="'+(r.amount!==""?r.amount:"")+'"></div>';
+  html += '<div class="flab"><span>收款状态</span></div><div class="seg">'+
+    '<button data-p="1" class="'+(r.paid?'on':'')+'">已收</button>'+
+    '<button data-p="0" class="'+(!r.paid?'on no':'')+'">未收</button></div>';
+  html += '<div class="frow"><label>日期</label><input type="date" id="fDate" value="'+r.date+'"></div>';
+  html += '<div class="frow"><label>成本</label><input id="fCost" inputmode="decimal" placeholder="可选，填了自动算利润" value="'+(r.cost?r.cost:"")+'"></div>';
+  html += '<div class="profit"><span>利润（收入 − 成本）</span><b id="profitVal">—</b></div>';
+  html += '<div class="acts">'+
+    '<button class="btn ghost" id="cancel">取消</button>'+
+    (r.id? '<button class="btn danger" id="del">删除</button>':'')+
+    '<button class="btn primary" id="saveRec">保存</button></div>';
+
+  openSheet(html);
+  updateProfit();
+  var amt=$("fAmount"); if(amt && !r.id) setTimeout(function(){amt.focus();},200);
+}
+
+function updateProfit(){
+  var a=parseFloat($("fAmount").value)||0, c=parseFloat($("fCost").value)||0;
+  $("profitVal").textContent = money(a-c);
+  $("profitVal").style.color = (a-c)>=0 ? "var(--green)" : "var(--red)";
+}
+
+function openVoice(){
+  state.voice = { text:"", parsed:null, listening:false };
+  var html = '<div class="grab"></div><h2>语音记账<span>说一句，自动拆字段</span></h2>'+
+    '<div class="vwrap">'+
+      '<div class="vstat" id="vstat">点击麦克风开始</div>'+
+      '<div class="vorb" id="vorb"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><path d="M12 18v3"/></svg></div>'+
+      '<div class="vwave" id="vwave">'+
+        '<i style="height:6px"></i><i style="height:14px"></i><i style="height:22px"></i><i style="height:10px"></i><i style="height:18px"></i><i style="height:26px"></i><i style="height:12px"></i><i style="height:20px"></i><i style="height:8px"></i><i style="height:16px"></i><i style="height:24px"></i><i style="height:11px"></i>'+
+      '</div>'+
+      '<textarea class="vtext" id="vtext" placeholder="也可以直接打字，例如：大姐 九月五号 拍摄 一千五 已收"></textarea>'+
+      '<div class="vhint">支持：客户名 / 金额（一千五、1500）/ 月份日期（九月五号）/ 已收未收</div>'+
+    '</div>'+
+    '<div class="parsed" id="vparsed"></div>'+
+    '<div class="acts"><button class="btn ghost" id="vcancel">取消</button><button class="btn primary" id="vok">确认入账</button></div>';
+  openSheet(html);
+  renderParsed(parseVoice(""));
+  var t=$("vtext");
+  t.addEventListener("input", function(){ state.voice.text=t.value; renderParsed(parseVoice(t.value)); });
+  $("vorb").onclick = toggleRec;
+}
+
+function renderParsed(p){
+  state.voice.parsed=p;
+  var okClient=(p.client||p.newClient)?1:0, okAmt=p.amount>0?1:0;
+  var html =
+    '<div class="prow"><label>客户</label><b>'+(p.client?esc(p.client):(p.newClient?esc(p.newClient)+' <span style="font-size:10px;color:var(--sub)">新</span>':'—'))+'</b>'+
+      '<span class="state '+(okClient?'ok':'no')+'">'+(p.client?'✓ 匹配预设':(p.newClient?'✓ 将新增':'未匹配'))+'</span></div>'+
+    '<div class="prow"><label>金额</label><b class="mono">'+(p.amount?money(p.amount,true):'—')+'</b>'+
+      '<span class="state '+(okAmt?'ok':'no')+'">'+(okAmt?'✓':'待填')+'</span></div>'+
+    '<div class="prow"><label>日期</label><b>'+p.date.replace(/-/g,"/")+'</b><span class="state ok">✓</span></div>'+
+    '<div class="prow"><label>状态</label><b style="color:'+(p.paid?'var(--green)':'var(--red)')+'">'+(p.paid?'已收':'未收')+'</b>'+
+      '<span class="state ok">✓</span></div>';
+  $("vparsed").innerHTML = html;
+}
+
+var recognition=null, recActive=false;
+function toggleRec(){
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){
+    $("vstat").textContent = "当前浏览器不支持语音，直接打字即可";
+    toast("浏览器不支持语音识别，请打字");
+    return;
+  }
+  if(recActive){ try{ recognition.stop(); }catch(e){} return; }
+  recognition = new SR();
+  recognition.lang = "zh-CN";
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  var base = $("vtext").value;
+  recognition.onstart = function(){
+    recActive=true;
+    $("vorb").classList.add("rec"); $("vwave").classList.add("on");
+    $("vstat").textContent = "正在聆听…再点一次停止";
+  };
+  recognition.onresult = function(e){
+    var finalTxt="", interim="";
+    for(var i=e.resultIndex;i<e.results.length;i++){
+      var r=e.results[i];
+      if(r.isFinal) finalTxt+=r[0].transcript; else interim+=r[0].transcript;
+    }
+    if(finalTxt) base = (base?base+" ":"")+finalTxt;
+    var val = base + (interim? " "+interim : "");
+    $("vtext").value = val;
+    state.voice.text = val;
+    renderParsed(parseVoice(val));
+  };
+  recognition.onerror = function(ev){
+    $("vstat").textContent = "识别出错："+ev.error+"，可直接打字";
+    stopRecUI();
+  };
+  recognition.onend = function(){ stopRecUI(); };
+  try{ recognition.start(); }catch(e){ toast("无法启动麦克风"); }
+}
+function stopRecUI(){
+  recActive=false;
+  var o=$("vorb"), w=$("vwave");
+  if(o){ o.classList.remove("rec"); }
+  if(w){ w.classList.remove("on"); }
+  var s=$("vstat"); if(s && s.textContent.indexOf("出错")<0) s.textContent="已停止，可点确认";
+}
+
+function openMonthPick(target){
+  state._picking = target==="B" ? "B" : "A";
+  var months=allMonths();
+  var cur = state._picking==="B" ? (state.compareB||shiftMonth(state.compareA||state.month,-1)) : (state.compareA||state.month);
+  var html='<div class="grab"></div><h2>选择月份<span>'+(state._picking==="B"?"对比期":"本期")+'</span></h2><div class="mgrid">';
+  months.forEach(function(m){
+    var on = cur===m;
+    html += '<button data-m="'+m+'" class="'+(on?'on':'')+'">'+Number(m.split("-")[1])+'月<span style="display:block;font-size:9px;color:var(--sub);font-weight:500">'+m.slice(0,4)+'</span></button>';
+  });
+  html += '</div><div class="acts"><button class="btn ghost" id="mcancel">取消</button></div>';
+  openSheet(html);
+}
+
+/* ---------------- actions ---------------- */
+function saveRecord(){
+  var e=state.editing; if(!e) return;
+  var amount=parseFloat($("fAmount").value);
+  if(!amount || amount<=0){ toast("请输入金额"); $("fAmount").focus(); return; }
+  var date=$("fDate").value || today();
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(date)){ toast("日期不对"); return; }
+  var cost=parseFloat($("fCost").value)||0;
+  var project=$("fProject").value.trim();
+  var client=e.client || (state.data.clients[0]||"");
+  if(!client){ toast("请选择客户"); return; }
+
+  if(e.id){
+    recs().forEach(function(r){
+      if(r.id===e.id){ r.client=client; r.project=project; r.amount=num(amount); r.date=date; r.paid=e.paid; r.cost=num(cost); }
+    });
+    toast("已更新");
+  } else {
+    recs().push({ id:uid(), client:client, project:project, amount:num(amount), date:date, paid:e.paid, cost:num(cost) });
+    toast("已记下");
+  }
+  if(!state.data.clients.includes(client)) state.data.clients.push(client);
+  save();
+  state.month=date.slice(0,7);
+  closeSheet();
+  render();
+}
+
+function addRecordFromVoice(){
+  var p=state.voice && state.voice.parsed;
+  if(!p || !p.amount){ toast("还缺金额，补一句或直接改"); return; }
+  var client = p.client || p.newClient;
+  if(!client){ toast("没听出客户名，请在上方补一句"); return; }
+  recs().push({ id:uid(), client:client, project:p.project||"语音记账", amount:num(p.amount),
+                date:p.date, paid:p.paid, cost:0 });
+  if(state.data.clients.indexOf(client)<0) state.data.clients.push(client);
+  save();
+  state.month=p.date.slice(0,7);
+  closeSheet(); render(); toast("已记下 · "+client+" "+money(p.amount));
+}
+
+function delRecord(){
+  var e=state.editing; if(!e||!e.id) return;
+  if(!confirm("删除这条记录？")) return;
+  state.data.records=recs().filter(function(r){ return r.id!==e.id; });
+  save(); closeSheet(); render(); toast("已删除");
+}
+
+function exportCsv(){
+  var rows=recs().slice().sort(function(a,b){ return a.date<b.date?-1:1; });
+  if(!rows.length){ toast("没有数据"); return; }
+  var lines=["日期,客户,项目,金额,收款状态,成本,利润"];
+  rows.forEach(function(r){
+    lines.push([r.date,'"'+String(r.client).replace(/"/g,'""')+'"','"'+String(r.project||"").replace(/"/g,'""')+'"',
+      num(r.amount).toFixed(2), r.paid?"已收":"未收", num(r.cost||0).toFixed(2), num(r.amount-(r.cost||0)).toFixed(2)].join(","));
+  });
+  download("业务账单_"+today()+".csv","\uFEFF"+lines.join("\r\n"),"text/csv;charset=utf-8");
+}
+
+function download(name, text, mime){
+  var blob=new Blob([text],{type:mime||"text/plain;charset=utf-8"});
+  var a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download=name;
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },800);
+}
+
+function exportJson(){
+  download("业务账单备份_"+today()+".json", JSON.stringify(state.data,null,1), "application/json");
+}
+
+function importJson(file){
+  var fr=new FileReader();
+  fr.onload=function(){
+    try{
+      var d=JSON.parse(fr.result);
+      if(!d || !Array.isArray(d.records)) throw new Error("bad");
+      state.data=d;
+      save(); render(); toast("已导入 "+d.records.length+" 条");
+    }catch(e){ toast("文件格式不对"); }
+  };
+  fr.readAsText(file);
+}
+
+/* ---------------- render root ---------------- */
+function render(){
+  var app=$("app"), dock=$("dock");
+  var html="";
+  if(state.tab==="list") html=renderList();
+  else if(state.tab==="compare") html=renderCompare();
+  else if(state.tab==="stats") html=renderStats();
+  else html=renderClients();
+  app.innerHTML=html;
+
+  [].forEach.call(dock.querySelectorAll(".d"),function(b){
+    b.classList.toggle("on", b.getAttribute("data-tab")===state.tab);
+  });
+  bindView();
+  try{ localStorage.setItem("biz.ui.month", state.month||""); }catch(e){}
+}
+
+function bindView(){
+  var r;
+  if((r=$("prevM"))) r.onclick=function(){ state.month=shiftMonth(state.month,-1); render(); };
+  if((r=$("nextM"))) r.onclick=function(){ if(state.month<curMonth()){ state.month=shiftMonth(state.month,1); render(); } };
+  if((r=$("monthPick"))) r.onclick=function(){ openMonthPick("A"); };
+  if((r=$("toCompare"))) r.onclick=function(){ state.compareA=state.month; state.compareB=shiftMonth(state.month,-1); state.tab="compare"; render(); };
+  if((r=$("pickA"))) r.onclick=function(){ openMonthPick("A"); };
+  if((r=$("pickB"))) r.onclick=function(){ openMonthPick("B"); };
+  if((r=$("swap"))) r.onclick=function(){
+    var a=state.compareA||state.month, b=state.compareB||shiftMonth(a,-1);
+    state.compareA=b; state.compareB=a; render();
+  };
+  if((r=$("clearFilter"))) r.onclick=function(){ state.clientFilter=null; render(); };
+  if((r=$("addBtn"))) r.onclick=function(){ openEdit(null); };
+  if((r=$("addClient"))) r.onclick=function(){
+    var name=prompt("客户 / 介绍人名字");
+    if(name && name.trim()){
+      var n=name.trim();
+      if(state.data.clients.indexOf(n)<0){ state.data.clients.push(n); save(); render(); toast("已添加 "+n); }
+      else toast("已有这个客户");
+    }
+  };
+  if((r=$("expCsv"))) r.onclick=exportCsv;
+  if((r=$("expJson"))) r.onclick=exportJson;
+  if((r=$("impJson"))) r.onclick=function(){ $("fileInput").click(); };
+  if((r=$("fileInput"))) r.onchange=function(){ if(this.files[0]) importJson(this.files[0]); this.value=""; };
+  if((r=$("resetSeed"))) r.onclick=function(){
+    if(confirm("重置为表格里的 107 笔数据？当前修改会丢失")){ resetData(); render(); toast("已重置"); }
+  };
+
+  // rows
+  [].forEach.call(document.querySelectorAll(".row[data-id]"),function(el){
+    el.onclick=function(){
+      var id=el.getAttribute("data-id");
+      var rec=recs().filter(function(x){return x.id===id;})[0];
+      if(rec) openEdit(rec);
+    };
+  });
+  [].forEach.call(document.querySelectorAll(".row[data-client]"),function(el){
+    el.onclick=function(){
+      state.clientFilter=el.getAttribute("data-client");
+      state.tab="list"; render();
+    };
+  });
+}
+
+/* ---------------- sheet events (delegated) ---------------- */
+document.addEventListener("click", function(e){
+  var t=e.target;
+  if(t.id==="mask"){ closeSheet(); return; }
+  if(t.id==="cancel"||t.id==="vcancel"||t.id==="mcancel"){ closeSheet(); return; }
+  if(t.id==="saveRec"){ saveRecord(); return; }
+  if(t.id==="del"){ delRecord(); return; }
+  if(t.id==="vok"){ addRecordFromVoice(); return; }
+  if(t.id==="profitVal") return;
+
+  var c=t.closest && t.closest(".chip2");
+  if(c && state.editing){ state.editing.client=c.getAttribute("data-c"); 
+    [].forEach.call(document.querySelectorAll(".chip2"),function(x){x.classList.toggle("on",x===c);}); return; }
+
+  var p=t.closest && t.closest(".seg button");
+  if(p && state.editing){
+    var paid=p.getAttribute("data-p")==="1";
+    state.editing.paid=paid;
+    [].forEach.call(p.parentNode.querySelectorAll("button"),function(b){ b.classList.toggle("on",b===p); b.classList.toggle("no",b===p && !paid); });
+    return;
+  }
+
+  var mb=t.closest && t.closest(".mgrid button");
+  if(mb){
+    var m=mb.getAttribute("data-m");
+    if(state._picking==="B"){ state.compareB=m; }
+    else { state.compareA=m; if(state.tab!=="compare") state.month=m; }
+    closeSheet(); render(); return;
+  }
+});
+
+document.addEventListener("input", function(e){
+  if(e.target.id==="fAmount"||e.target.id==="fCost") updateProfit();
+});
+
+/* ---------------- mic ---------------- */
+$("micBtn").onclick=function(){ openVoice(); };
+
+[].forEach.call(document.querySelectorAll(".dock .d"), function(b){
+  b.onclick=function(){
+    var tab=b.getAttribute("data-tab");
+    if(tab==="compare"){ state.compareA=state.month; state.compareB=shiftMonth(state.month,-1); }
+    state.tab=tab; render();
+  };
+});
+
+/* ---------------- boot ---------------- */
+(function boot(){
+  var d=load();
+  if(!d){ d=JSON.parse(JSON.stringify(SEED)); d.records.forEach(function(r){ if(!r.id) r.id=uid(); }); state.data=d; save(); }
+  state.data=d;
+  var latest=recs().map(function(r){return monthOf(r.date);}).sort().pop();
+  var saved=null;
+  try{ saved=localStorage.getItem("biz.ui.month"); }catch(e){}
+  state.month = (saved && /^\d{4}-\d{2}$/.test(saved))? saved : curMonth();
+  if(!monthRecs(state.month).length && !saved) state.month = latest || curMonth();
+  state.compareA=state.month; state.compareB=shiftMonth(state.month,-1);
+  render();
+})();
+
+window.addEventListener("keydown", function(e){ if(e.key==="Escape") closeSheet(); });
+</script>
+</body>
+</html>
