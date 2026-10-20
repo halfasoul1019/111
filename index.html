@@ -236,6 +236,31 @@
   .mrow .mp b{display:block;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .mrow .mp span{font-size:10.5px;color:var(--sub)}
   .mrow .ma{font-size:12.5px;font-weight:800;font-variant-numeric:tabular-nums}
+  .backbtn{border:1px solid var(--line);background:var(--card);color:var(--sub);border-radius:9px;
+    padding:5px 11px;font-size:11.5px;font-weight:700;font-family:inherit;cursor:pointer;margin-bottom:10px;display:inline-flex;align-items:center;gap:4px}
+  .yearswith{display:flex;align-items:center;gap:8px;margin:0 0 12px}
+  .yearswith .yb{width:26px;height:26px;border-radius:8px;border:1px solid var(--line);background:var(--card);
+    display:grid;place-items:center;color:var(--sub);font-family:inherit;font-size:13px;cursor:pointer}
+  .yearswith .yt{font-size:13px;font-weight:800}
+  .mons{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:12px}
+  .mon{padding:0 14px;border-bottom:1px solid var(--line)}
+  .mon:last-child{border-bottom:0}
+  .monh{display:flex;align-items:center;gap:10px;padding:11px 0;cursor:pointer}
+  .monh .mm{font-size:13px;font-weight:800;width:46px;flex:0 0 46px}
+  .monh .mn{font-size:10.5px;color:var(--sub);width:44px;flex:0 0 44px}
+  .monh .mv{flex:1;text-align:right;font-size:12.5px;font-weight:800;font-variant-numeric:tabular-nums}
+  .monh .mu{font-size:10px;color:var(--red);width:66px;text-align:right;flex:0 0 66px}
+  .monh .mi{color:var(--sub);font-size:11px;transition:.2s}
+  .mon.cl .mi{transform:rotate(-90deg)}
+  .monb{padding:0 0 10px}
+  .bill{display:flex;align-items:center;gap:9px;padding:8px 0 8px 6px;border-top:1px dashed var(--line);cursor:pointer}
+  .bill .bp{flex:1;min-width:0}
+  .bill .bp b{display:block;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bill .bp span{font-size:10px;color:var(--sub)}
+  .bill .ba{font-size:12.5px;font-weight:800;font-variant-numeric:tabular-nums}
+  .bill .bt{font-size:9.5px;padding:1px 5px;border-radius:4px;font-weight:700}
+  .bill .bt.ok{color:var(--green);background:rgba(15,157,112,.1)}
+  .bill .bt.no{color:var(--red);background:rgba(225,29,72,.09)}
   /* sheet */
   .mask{position:fixed;inset:0;background:rgba(9,20,34,.42);opacity:0;pointer-events:none;transition:.2s;z-index:40;backdrop-filter:blur(2px)}
   .mask.on{opacity:1;pointer-events:auto}
@@ -370,6 +395,10 @@ var state = {
   listView: "income",
   expEditing: null,
   compareMode: "month",
+  clientName: null,
+  returnTab: null,
+  clientYear: null,
+  clientCollapsed: null,
   yearA: null,
   yearB: null,
   expandYM: null
@@ -1050,6 +1079,90 @@ function renderClients(){
   return html;
 }
 
+function renderClientPage(){
+  var name = state.clientName || "";
+  var all = recs().filter(function(r){ return r.client===name; });
+  var ys={}; all.forEach(function(r){ ys[r.date.slice(0,4)]=1; });
+  var years=Object.keys(ys).sort().reverse();
+  var y = state.clientYear && ys[state.clientYear] ? state.clientYear : (years[0] || state.month.slice(0,4));
+  var list = all.filter(function(r){ return r.date.slice(0,4)===y; })
+                .sort(function(a,b){ return a.date<b.date?-1:1; });
+  var total=sum(list), paid=sum(list.filter(function(r){return r.paid;})), un=num(total-paid);
+
+  var html='<header><div class="hdrow"><div>'+
+    '<button class="backbtn" id="backBtn">‹ 客户</button>'+
+    '<div class="h1"><span class="dot"></span>'+esc(name)+'</div>'+
+    '<div class="hsub">CLIENT LEDGER · '+y+' 年 · '+all.length+' 笔</div>'+
+    '</div><div class="hactions">'+
+    '<button class="iconbtn" id="addForClient" title="给这位客户记一笔"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></button>'+
+    '</div></div></header>';
+
+  if(years.length>1){
+    html+='<div class="yearswith"><button class="yb" id="yPrev">‹</button><span class="yt">'+y+' 年</span><button class="yb" id="yNext">›</button></div>';
+  }
+
+  html+='<section class="hero">'+
+    '<span class="cn c1"></span><span class="cn c2"></span><span class="cn c3"></span><span class="cn c4"></span>'+
+    '<div class="hlab">'+y+' 年应收合计</div>'+
+    '<div class="hamt mono"><i>¥</i>'+money(total,true).slice(1)+'</div>'+
+    '<div class="grid4">'+
+      '<div class="ok"><b class="mono">'+money(paid)+'</b><i>已收</i></div>'+
+      '<div class="no"><b class="mono">'+money(un)+'</b><i>未收</i></div>'+
+      '<div><b class="mono">'+list.length+'</b><i>笔数</i></div>'+
+      '<div><b class="mono">'+Math.round(total? paid/total*100:0)+'%</b><i>回款率</i></div>'+
+    '</div></section>';
+
+  // 月度柱
+  var maxM=1, mvals=[];
+  for(var i=1;i<=12;i++){
+    var v=sum(list.filter(function(r){ return Number(r.date.slice(5,7))===i; }));
+    mvals.push(v); if(v>maxM) maxM=v;
+  }
+  html+='<div class="panel" style="margin-top:12px"><h3>'+y+' 年逐月 <span>点下面月份看明细</span></h3><div class="bars">';
+  for(i=0;i<12;i++){
+    html+='<div class="col"><i class="a" style="height:'+Math.max(1,mvals[i]/maxM*80).toFixed(1)+'px"></i></div>';
+  }
+  html+='</div><div class="xaxis">';
+  for(i=1;i<=12;i++) html+='<span>'+i+'</span>';
+  html+='</div></div>';
+
+  // 按月明细
+  html+='<div class="mons">';
+  var any=false;
+  for(var mm=12; mm>=1; mm--){
+    var items=list.filter(function(r){ return Number(r.date.slice(5,7))===mm; });
+    if(!items.length) continue;
+    any=true;
+    var mt=sum(items), mu=sum(items.filter(function(r){return !r.paid;}));
+    var key=y+"-"+pad2(mm);
+    var collapsed = state.clientCollapsed && state.clientCollapsed[key];
+    html+='<div class="mon'+(collapsed?' cl':'')+'" data-cm2="'+key+'">'+
+      '<div class="monh"><div class="mm">'+mm+' 月</div><div class="mn">'+items.length+' 笔</div>'+
+      '<div class="mv">'+money(mt)+'</div>'+
+      '<div class="mu">'+(mu?'未收 '+money(mu):'已结清')+'</div>'+
+      '<div class="mi">▾</div></div>';
+    if(!collapsed){
+      html+='<div class="monb">';
+      items.forEach(function(r){
+        html+='<div class="bill" data-cid="'+r.id+'">'+
+          '<div class="bp"><b>'+(r.project?esc(r.project):'未填项目')+'</b><span>'+r.date.slice(5).replace('-','/')+'</span></div>'+
+          '<span class="bt '+(r.paid?'ok':'no')+'">'+(r.paid?'已收':'未收')+'</span>'+
+          '<div class="ba">'+money(r.amount)+'</div></div>';
+      });
+      html+='</div>';
+    }
+    html+='</div>';
+  }
+  if(!any){
+    html+='<div class="empty" style="padding:26px"><b>'+y+' 年还没有账单</b>点右上角 ＋ 给这位客户记一笔</div>';
+  }
+  html+='</div>';
+
+  html+='<div class="acts"><button class="btn ghost" id="backBtn2">返回</button>'+
+    '<button class="btn primary" id="filterClient2" data-fc="'+esc(name)+'">在账单里筛选</button></div>';
+  return html;
+}
+
 /* ---------------- sheets ---------------- */
 function openSheet(html){ $("sheet").innerHTML=html; $("sheet").classList.add("on"); $("mask").classList.add("on"); }
 function closeSheet(){ $("sheet").classList.remove("on"); $("mask").classList.remove("on"); state.editing=null; state.voice=null; state.expEditing=null; }
@@ -1242,6 +1355,15 @@ function delExpense(){
   save(); closeSheet(); render(); toast("已删除");
 }
 
+function openClientPage(name, from){
+  state.clientName=name;
+  state.returnTab=from||"clients";
+  state.clientYear=null;
+  state.clientCollapsed={};
+  state.tab="client";
+  render();
+}
+
 function openClient(name){
   var a=recs().filter(function(r){ return r.client===name; })
              .sort(function(x,y){ return x.date<y.date?1:-1; });
@@ -1396,11 +1518,13 @@ function render(){
   if(state.tab==="list") html=renderList();
   else if(state.tab==="compare") html=renderCompare();
   else if(state.tab==="stats") html=renderStats();
+  else if(state.tab==="client") html=renderClientPage();
   else html=renderClients();
   app.innerHTML=html;
 
+  var activeTab = state.tab==="client" ? "clients" : state.tab;
   [].forEach.call(dock.querySelectorAll(".d"),function(b){
-    b.classList.toggle("on", b.getAttribute("data-tab")===state.tab);
+    b.classList.toggle("on", b.getAttribute("data-tab")===activeTab);
   });
   bindView();
   try{ localStorage.setItem("biz.ui.month", state.month||""); }catch(e){}
@@ -1445,11 +1569,30 @@ function bindView(){
     };
   });
   [].forEach.call(document.querySelectorAll(".row[data-client]"),function(el){
-    el.onclick=function(){ openClient(el.getAttribute("data-client")); };
+    el.onclick=function(){ openClientPage(el.getAttribute("data-client"),"clients"); };
   });
   [].forEach.call(document.querySelectorAll(".ghead[data-client]"),function(el){
-    el.onclick=function(){ openClient(el.getAttribute("data-client")); };
+    el.onclick=function(){ openClientPage(el.getAttribute("data-client"),"list"); };
   });
+  var r;
+  if((r=$("backBtn"))) r.onclick=function(){ state.tab=state.returnTab||"clients"; render(); };
+  if((r=$("backBtn2"))) r.onclick=function(){ state.tab=state.returnTab||"clients"; render(); };
+  if((r=$("filterClient2"))) r.onclick=function(){
+    state.clientFilter=r.getAttribute("data-fc"); state.tab="list"; state.listView="income"; render();
+  };
+  if((r=$("addForClient"))) r.onclick=function(){
+    openEdit({ id:"", client:state.clientName, project:"", amount:"", date: today(), paid:true, cost:0 });
+  };
+  if((r=$("yPrev"))) r.onclick=function(){
+    var ys2=recs().filter(function(x){return x.client===state.clientName;}).map(function(x){return x.date.slice(0,4);});
+    var u=[...new Set(ys2)].sort();
+    var idx=u.indexOf(state.clientYear); if(idx>0){ state.clientYear=u[idx-1]; render(); }
+  };
+  if((r=$("yNext"))) r.onclick=function(){
+    var ys3=recs().filter(function(x){return x.client===state.clientName;}).map(function(x){return x.date.slice(0,4);});
+    var u2=[...new Set(ys3)].sort();
+    var idx2=u2.indexOf(state.clientYear); if(idx2>=0 && idx2<u2.length-1){ state.clientYear=u2[idx2+1]; render(); }
+  };
 }
 
 /* ---------------- sheet events (delegated) ---------------- */
@@ -1500,6 +1643,15 @@ document.addEventListener("click", function(e){
     state.expEditing.cat=ec.getAttribute("data-ec");
     [].forEach.call(document.querySelectorAll("[data-ec]"),function(x){ x.classList.toggle("on",x===ec); });
     return;
+  }
+
+  var cmh=t.closest && t.closest(".monh");
+  if(cmh){
+    var cm2=cmh.closest("[data-cm2]");
+    var k2=cm2.getAttribute("data-cm2");
+    state.clientCollapsed=state.clientCollapsed||{};
+    state.clientCollapsed[k2]=!state.clientCollapsed[k2];
+    render(); return;
   }
 
   var cid=t.closest && t.closest("[data-cid]");
