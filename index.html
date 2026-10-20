@@ -1255,7 +1255,7 @@ function openClient(name){
   '</div>';
 
   if(!a.length){
-    html+='<div class="empty" style="padding:18px">还没有账单</div>';
+    html+='<div class="empty" style="padding:18px"><b>这位客户还没有账单</b>如果这是线上版刚打开，账本是空的——先去「客户」页底部点「恢复」，导入电脑导出的备份 json</div>';
   } else {
     var byM={}, ord=[];
     a.forEach(function(r){
