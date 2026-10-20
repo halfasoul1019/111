@@ -374,13 +374,14 @@ function monthLabel(m){ var p=m.split("-"); return p[0]+" 年 "+Number(p[1])+" �
 function monthShort(m){ return Number(m.split("-")[1])+"月"; }
 function num(n){ return Math.round((Number(n)||0)*100)/100; }
 function money(n, dec){
-  var v=num(n), s;
+  var v=num(n), s, neg=(v<0);
+  if(neg) v=Math.abs(v);
   if(dec===false || (Math.abs(v-Math.round(v))<0.005 && dec!==true)){
     s=String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g,",");
   } else {
     s=v.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,",");
   }
-  return "¥"+s;
+  return (neg?"-":"")+"¥"+s;
 }
 function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
 function toast(msg){
