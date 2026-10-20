@@ -27,7 +27,7 @@
   body{
     background:var(--bg);color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
-    font-size:15px;line-height:1.5;
+    font-size:15.5px;line-height:1.55;
     background-image:
       radial-gradient(70% 40% at 8% -6%,rgba(34,211,238,.16),transparent 62%),
       radial-gradient(60% 36% at 100% 6%,rgba(124,58,237,.10),transparent 60%);
@@ -47,8 +47,8 @@
   .viewseg button.on{background:var(--bg);color:var(--cyan);box-shadow:var(--shadow-sm)}
   .grid6{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}
   .grid6>div{background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:10px;padding:6px 8px}
-  .grid6 b{display:block;font-size:13.5px;letter-spacing:-.2px}
-  .grid6 i{font-style:normal;font-size:9.5px;color:var(--sub)}
+  .grid6 b{display:block;font-size:15px;letter-spacing:-.3px;font-weight:800}
+  .grid6 i{font-style:normal;font-size:10.5px;color:#54657d}
   .grid6 .ok b{color:var(--green)}
   .grid6 .no b{color:var(--red)}
   .grid6 .pr b{color:var(--cyan)}
@@ -126,9 +126,9 @@
   .hero .c2{top:9px;right:9px;border-left:0;border-bottom:0;border-radius:0 4px 0 0}
   .hero .c3{bottom:9px;left:9px;border-right:0;border-top:0;border-radius:0 0 0 4px}
   .hero .c4{bottom:9px;right:9px;border-left:0;border-top:0;border-radius:0 0 4px 0}
-  .hlab{font-size:11px;color:var(--sub);letter-spacing:1.2px}
-  .hamt{font-size:34px;font-weight:800;letter-spacing:-1.4px;margin:4px 0 6px;
-    background:linear-gradient(120deg,#0b3b52,#0891b2 70%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hlab{font-size:12px;color:#51637b;letter-spacing:1px;font-weight:600}
+  .hamt{font-size:39px;font-weight:800;letter-spacing:-1.2px;margin:4px 0 8px;
+    background:linear-gradient(120deg,#062c3d,#0e7490 72%);-webkit-background-clip:text;background-clip:text;color:transparent}
   @media (prefers-color-scheme:dark){ .hamt{background:linear-gradient(120deg,#dff6ff,#67e8f9 70%);-webkit-background-clip:text;background-clip:text} }
   .hamt i{font-style:normal;font-size:15px;margin-right:2px;-webkit-text-fill-color:var(--cyan)}
   .delta{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 7px;border-radius:7px;
@@ -138,26 +138,26 @@
   .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:12px}
   .grid4>div{background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:11px;padding:7px 8px}
   @media (prefers-color-scheme:dark){ .grid4>div{background:rgba(255,255,255,.04)} }
-  .grid4 b{display:block;font-size:14px;letter-spacing:-.2px}
-  .grid4 i{font-style:normal;font-size:10px;color:var(--sub)}
+  .grid4 b{display:block;font-size:15.5px;letter-spacing:-.2px}
+  .grid4 i{font-style:normal;font-size:11px;color:#54657d}
   .grid4 .ok b{color:var(--green)}
   .grid4 .no b{color:var(--red)}
 
   /* group list */
   .ghead{display:flex;align-items:center;justify-content:space-between;padding:14px 4px 7px}
-  .ghead .n{font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:6px}
+  .ghead .n{font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px}
   .ghead .n s{width:3px;height:12px;border-radius:2px;background:linear-gradient(var(--cyan2),var(--violet));display:block}
   .ghead .n em{font-style:normal;color:var(--sub);font-weight:500;font-size:10.5px}
   .ghead .s{font-size:12px;color:var(--sub);font-weight:700}
   .row{display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--line);
     border-radius:12px;padding:11px 12px;margin-bottom:6px;box-shadow:var(--shadow-sm);cursor:pointer}
   .row:active{background:var(--bg2)}
-  .row .pn{flex:1;min-width:0;font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .row .pn{flex:1;min-width:0;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .row .pn small{display:block;font-size:10.5px;color:var(--sub);font-weight:500;margin-top:1px}
-  .tag{font-size:10px;padding:2px 7px;border-radius:6px;font-weight:700;white-space:nowrap}
+  .tag{font-size:10.5px;padding:2px 7px;border-radius:6px;font-weight:700;white-space:nowrap}
   .tag.ok{color:var(--green);background:rgba(15,157,112,.1);border:1px solid rgba(15,157,112,.18)}
   .tag.no{color:var(--red);background:rgba(225,29,72,.09);border:1px solid rgba(225,29,72,.16)}
-  .row .am{font-size:13.5px;font-weight:700;text-align:right;min-width:66px}
+  .row .am{font-size:14.5px;font-weight:800;text-align:right;min-width:68px}
 
   /* dock */
   .dock{position:fixed;left:0;right:0;bottom:0;z-index:20;padding-bottom:env(safe-area-inset-bottom);
@@ -226,6 +226,16 @@
   .xaxis{display:flex;gap:5px;margin-top:6px}
   .xaxis span{flex:1;text-align:center;font-size:8.5px;color:var(--sub);white-space:nowrap}
 
+  .clsum{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px}
+  .clsum>div{background:var(--bg);border-radius:10px;padding:8px 9px}
+  .clsum i{font-style:normal;display:block;font-size:10px;color:var(--sub);margin-bottom:2px}
+  .clsum b{display:block;font-size:14px;font-variant-numeric:tabular-nums}
+  .mrow{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer}
+  .mrow:last-child{border-bottom:0}
+  .mrow .mp{flex:1;min-width:0}
+  .mrow .mp b{display:block;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mrow .mp span{font-size:10.5px;color:var(--sub)}
+  .mrow .ma{font-size:12.5px;font-weight:800;font-variant-numeric:tabular-nums}
   /* sheet */
   .mask{position:fixed;inset:0;background:rgba(9,20,34,.42);opacity:0;pointer-events:none;transition:.2s;z-index:40;backdrop-filter:blur(2px)}
   .mask.on{opacity:1;pointer-events:auto}
@@ -301,6 +311,11 @@
   .tools{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0 4px}
   .tools button{border:1px solid var(--line);background:var(--card);color:var(--sub);border-radius:9px;
     padding:7px 11px;font-size:11.5px;font-weight:600;cursor:pointer;font-family:inherit}
+  @media (min-width:760px){
+    .app{max-width:600px}
+    body{font-size:16.5px}
+    .hamt{font-size:44px}
+  }
   .toast{position:fixed;left:50%;bottom:84px;transform:translate(-50%,10px);background:rgba(14,27,43,.92);color:#fff;
     font-size:12.5px;padding:9px 15px;border-radius:99px;opacity:0;pointer-events:none;transition:.2s;z-index:60}
   .toast.on{opacity:1;transform:translate(-50%,0)}
@@ -738,7 +753,7 @@ function renderList(){
   } else {
     order2.forEach(function(c2){
       var items=groups[c2], ct=sum(items), unpaid2=sum(items.filter(function(r){return !r.paid;}));
-      html += '<div class="ghead"><div class="n"><s></s>'+esc(c2)+'<em>'+items.length+' 笔</em></div>'+
+      html += '<div class="ghead" data-client="'+esc(c2)+'"><div class="n"><s></s>'+esc(c2)+'<em>'+items.length+' 笔</em></div>'+
               '<div class="s mono">'+money(ct)+(unpaid2?' · 未收 '+money(unpaid2):'')+'</div></div>';
       items.forEach(function(r){
         html += '<div class="row" data-id="'+r.id+'">'+
@@ -1227,6 +1242,45 @@ function delExpense(){
   save(); closeSheet(); render(); toast("已删除");
 }
 
+function openClient(name){
+  var a=recs().filter(function(r){ return r.client===name; })
+             .sort(function(x,y){ return x.date<y.date?1:-1; });
+  var total=sum(a), paid=sum(a.filter(function(r){return r.paid;}));
+  var un=num(total-paid);
+  var html='<div class="grab"></div><h2>'+esc(name)+'<span>'+a.length+' 笔</span></h2>';
+  html+='<div class="clsum">'+
+    '<div><i>累计应收</i><b>'+money(total)+'</b></div>'+
+    '<div><i>已收</i><b style="color:var(--green)">'+money(paid)+'</b></div>'+
+    '<div><i>未收</i><b style="color:var(--red)">'+money(un)+'</b></div>'+
+  '</div>';
+
+  if(!a.length){
+    html+='<div class="empty" style="padding:18px">还没有账单</div>';
+  } else {
+    var byM={}, ord=[];
+    a.forEach(function(r){
+      var m=r.date.slice(0,7);
+      if(!byM[m]){ byM[m]=[]; ord.push(m); }
+      byM[m].push(r);
+    });
+    ord.sort().reverse();
+    ord.forEach(function(m){
+      var items=byM[m];
+      html+='<div class="ghead" style="padding:10px 2px 6px"><div class="n"><s></s>'+m.slice(0,4)+' 年 '+Number(m.slice(5))+' 月<em>'+items.length+' 笔</em></div>'+
+        '<div class="s mono">'+money(sum(items))+'</div></div>';
+      items.forEach(function(r){
+        html+='<div class="mrow" data-cid="'+r.id+'">'+
+          '<div class="mp"><b>'+(r.project?esc(r.project):'未填项目')+'</b><span>'+r.date.slice(5).replace('-','/')+' · '+(r.paid?'已收':'未收')+'</span></div>'+
+          '<div class="ma" style="color:'+(r.paid?'var(--ink)':'var(--red)')+'">'+money(r.amount)+'</div></div>';
+      });
+    });
+  }
+
+  html+='<div class="acts" style="margin-top:14px"><button class="btn ghost" id="cancel">关闭</button>'+
+    '<button class="btn primary" id="filterClient" data-fc="'+esc(name)+'">在账单里筛选</button></div>';
+  openSheet(html);
+}
+
 function openOverdue(){
   var od=overdueRecords();
   var html='<div class="grab"></div><h2>催款提醒<span>超过 3 个月未收</span></h2>';
@@ -1391,10 +1445,10 @@ function bindView(){
     };
   });
   [].forEach.call(document.querySelectorAll(".row[data-client]"),function(el){
-    el.onclick=function(){
-      state.clientFilter=el.getAttribute("data-client");
-      state.tab="list"; render();
-    };
+    el.onclick=function(){ openClient(el.getAttribute("data-client")); };
+  });
+  [].forEach.call(document.querySelectorAll(".ghead[data-client]"),function(el){
+    el.onclick=function(){ openClient(el.getAttribute("data-client")); };
   });
 }
 
@@ -1446,6 +1500,19 @@ document.addEventListener("click", function(e){
     state.expEditing.cat=ec.getAttribute("data-ec");
     [].forEach.call(document.querySelectorAll("[data-ec]"),function(x){ x.classList.toggle("on",x===ec); });
     return;
+  }
+
+  var cid=t.closest && t.closest("[data-cid]");
+  if(cid){
+    var cidv=cid.getAttribute("data-cid");
+    var crev=recs().filter(function(r){return r.id===cidv;})[0];
+    if(crev) openEdit(crev);
+    return;
+  }
+  var fc=t.closest && t.closest("[data-fc]");
+  if(fc){
+    state.clientFilter=fc.getAttribute("data-fc");
+    state.tab="list"; closeSheet(); render(); return;
   }
 
   var mk=t.closest && t.closest("[data-mark]");
