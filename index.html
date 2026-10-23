@@ -440,7 +440,7 @@
    ============================================================ */
 var SEED = {"clients":["华越（郭总）","聪","李光","邓","何老师（何建）","大姐","王苏","刘光","杨总（杨宁）","宋老板","王萌","王龙","雨哲","小师弟","原龙","绒会","酒业协会","1111","南京","俞导","杨老板","宫老师","学峰"],"records":[],"expenses":[],"year":2026};
 
-var APP_VER="v11";
+var APP_VER="v13";
 var KEY = "biz.ledger.v2";
 var state = {
   tab: "list",
@@ -1441,9 +1441,30 @@ function preprocessImage(dataUrl){
   });
 }
 
+function pickDate(s, defYear){
+  s=String(s||"");
+  var Y=defYear||today().slice(0,4);
+  var m=s.match(/(20\d{2})\s*[-年\/\.]\s*(\d{1,2})\s*[-月\/\.]\s*(\d{1,2})/);
+  if(m && +m[2]>=1 && +m[2]<=12 && +m[3]>=1 && +m[3]<=31)
+    return m[1]+"-"+pad2(+m[2])+"-"+pad2(+m[3]);
+  var re=/(?:^|[^\d])(\d{1,2})\s*[月日目]\s*(\d{1,2})\s*[日目号]?/g, mm;
+  while((mm=re.exec(s))){
+    if(+mm[1]>=1 && +mm[1]<=12 && +mm[2]>=1 && +mm[2]<=31)
+      return Y+"-"+pad2(+mm[1])+"-"+pad2(+mm[2]);
+  }
+  var re2=/(?:^|[^\d.])(\d{1,2})\s*[\/\-]\s*(\d{1,2})(?!\d)/g;
+  while((mm=re2.exec(s))){
+    if(+mm[1]>=1 && +mm[1]<=12 && +mm[2]>=1 && +mm[2]<=31 && +mm[2]!==+mm[1])
+      return Y+"-"+pad2(+mm[1])+"-"+pad2(+mm[2]);
+  }
+  return "";
+}
+
 function parseBillList(text){
   var lines=String(text||"").split(/\n+/).map(function(s){ return s.replace(/\s+/g," ").trim(); }).filter(function(s){ return s; });
   var out=[];
+  var ym=today().match(/^(\d{4})/);
+  var defYear=ym? ym[1] : "2026";
   for(var i=0;i<lines.length;i++){
     var ln=lines[i].replace(/\d{1,2}:\d{2}(:\d{2})?/g," ");
     if(/(支出|收入|余额|合计|总计|本月|全部账单)/.test(ln) && !/[+-]/.test(ln)) continue;
@@ -1452,14 +1473,24 @@ function parseBillList(text){
     var amt=parseFloat(m[2].replace(/,/g,""));
     if(!amt || amt>100000) continue;
     if(amt>=1000 && !m[1] && !/[¥￥]/.test(ln)) continue;
-    var name=ln.replace(m[0],"").replace(/\s+/g," ").trim();
+    var name=ln.replace(m[0],"")
+      .replace(/20\d{2}\s*[-年\/.]\s*\d{1,2}\s*[-月\/.]\s*\d{1,2}/g,"")
+      .replace(/\d{1,2}\s*[月日目]\s*\d{1,2}\s*[日目号]?/g,"")
+      .replace(/\d{1,2}\s*\/\s*\d{1,2}/g,"")
+      .replace(/\d{1,2}:\d{2}(:\d{2})?/g,"")
+      .replace(/\s+/g," ").trim();
     if(name.length<2 && i>0) name=lines[i-1];
     if(/^[\d\s年月日:：\.\-]+$/.test(name)) continue;
     if(/^\d{1,2}\s*月/.test(name)) name="";
     if(!/[a-zA-Z]/.test(name)) name=name.replace(/\s+/g,"");
-    var dt=lines[i].match(/(\d{1,2})\s*月\s*(\d{1,2})\s*日/);
-    if(!dt && lines[i+1]) dt=lines[i+1].match(/(\d{1,2})\s*月\s*(\d{1,2})\s*日/);
-    var date= dt ? today().slice(0,4)+"-"+pad2(+dt[1])+"-"+pad2(+dt[2]) : "";
+    var date=pickDate(ln, defYear) || pickDate(lines[i+1]||"", defYear) || pickDate(lines[i-1]||"", defYear);
+    if(!date){
+      var dmAll=String(text||"").match(/(20\d{2})\s*年\s*(\d{1,2})\s*月/);
+      if(dmAll){
+        var dayM=ln.match(/(\d{1,2})\s*日/);
+        if(dayM) date=dmAll[1]+"-"+pad2(+dmAll[2])+"-"+pad2(+dayM[1]);
+      }
+    }
     out.push({ amount:amt, name:String(name).slice(0,18), date:date, sign:m[1]||"" });
     if(out.length>=12) break;
   }
