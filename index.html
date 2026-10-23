@@ -310,6 +310,14 @@
   .dayrow .dt{font-size:9.5px;padding:1px 5px;border-radius:4px;font-weight:700;white-space:nowrap}
   .dayrow .dt.ok{color:var(--green);background:rgba(15,157,112,.1)}
   .dayrow .dt.no{color:var(--red);background:rgba(225,29,72,.09)}
+  .pickrow{position:relative}
+  .pickrow .pkbox{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--line);display:grid;place-items:center;
+    font-size:11px;color:transparent;flex:0 0 18px}
+  .pickrow.on .pkbox{background:var(--cyan);border-color:var(--cyan);color:#fff}
+  .pickrow.on{background:rgba(8,145,178,.05)}
+  .pickfoot{position:sticky;bottom:0;background:var(--card);padding:10px 0 2px;margin-top:6px;border-top:1px solid var(--line)}
+  .picksum{display:flex;justify-content:space-between;font-size:12px;margin-bottom:8px}
+  .picksum b{font-size:15px;color:var(--ink)}
   /* sheet */
   .mask{position:fixed;inset:0;background:rgba(9,20,34,.42);opacity:0;pointer-events:none;transition:.2s;z-index:40;backdrop-filter:blur(2px)}
   .mask.on{opacity:1;pointer-events:auto}
@@ -440,7 +448,7 @@
    ============================================================ */
 var SEED = {"clients":["华越（郭总）","聪","李光","邓","何老师（何建）","大姐","王苏","刘光","杨总（杨宁）","宋老板","王萌","王龙","雨哲","小师弟","原龙","绒会","酒业协会","1111","南京","俞导","杨老板","宫老师","学峰"],"records":[],"expenses":[],"year":2026};
 
-var APP_VER="v13";
+var APP_VER="v14";
 var KEY = "biz.ledger.v2";
 var state = {
   tab: "list",
@@ -1508,20 +1516,68 @@ function openOcrFail(text, mode){
 }
 
 function openBillPicker(list, mode, raw){
-  state.billPick = { list:list, mode:mode };
+  state.billPick = { list:list, mode:mode, sel:{} };
   state.billRaw = raw || "";
-  var html='<div class="grab"></div><h2>识别到 '+list.length+' 笔<span>点一笔录进去</span></h2>';
-  html+='<div style="font-size:11px;color:var(--sub);padding:0 2px 8px">这是一张账单列表截图，选你要记的那一笔。</div>';
+  var html='<div class="grab"></div><h2>识别到 '+list.length+' 笔<span>勾选后一起记</span></h2>';
+  html+='<div style="font-size:11px;color:var(--sub);padding:0 2px 8px">勾选要记的几笔，下面会显示合计。</div>';
   if(state.billRaw){
-    html+='<div style="font-size:10px;color:var(--sub);background:var(--bg);border-radius:8px;padding:7px 9px;margin-bottom:10px;max-height:70px;overflow:auto;white-space:pre-wrap">'+esc(state.billRaw.slice(0,240))+'</div>';
+    html+='<div style="font-size:10px;color:var(--sub);background:var(--bg);border-radius:8px;padding:7px 9px;margin-bottom:10px;max-height:64px;overflow:auto;white-space:pre-wrap">'+esc(state.billRaw.slice(0,240))+'</div>';
   }
   list.forEach(function(c,i){
-    html+='<div class="mrow" data-pick="'+i+'">'+
+    html+='<div class="mrow pickrow" data-pick="'+i+'">'+
+      '<div class="pkbox">✓</div>'+
       '<div class="mp"><b>'+(c.name||"未识别商户")+'</b><span>'+(c.date? c.date.replace(/-/g,"/") : "日期未识别")+'</span></div>'+
       '<div class="ma" style="color:var(--red)">'+money(c.amount)+'</div></div>';
   });
-  html+='<div class="acts" style="margin-top:12px"><button class="btn ghost" id="cancel">取消</button></div>';
+  html+='<div class="pickfoot">'+
+    '<div class="picksum"><span>已选 <b id="pickCount">0</b> 笔</span><span>合计 <b id="pickTotal">¥0</b></span></div>'+
+    '<div class="acts"><button class="btn ghost" id="cancel">取消</button>'+
+    '<button class="btn primary" id="pickMerge">合并成一笔</button>'+
+    '<button class="btn primary" id="pickEach" style="flex:0 0 118px">逐笔录入</button></div>'+
+  '</div>';
   openSheet(html);
+}
+
+function pickSelTotal(){
+  var bp=state.billPick; if(!bp) return {n:0,total:0};
+  var n=0,total=0;
+  Object.keys(bp.sel).forEach(function(k){ if(bp.sel[k]){ n++; total+=num(bp.list[Number(k)].amount); } });
+  return { n:n, total:num(total) };
+}
+
+function pickSave(mode2){
+  var bp=state.billPick; if(!bp) return;
+  var picked=Object.keys(bp.sel).filter(function(k){ return bp.sel[k]; })
+    .map(function(k){ return bp.list[Number(k)]; })
+    .sort(function(a,b){ return a.date<b.date?-1:1; });
+  if(!picked.length){ toast("先勾选至少一笔"); return; }
+  if(mode2==="merge"){
+    var sumAmt=num(picked.reduce(function(s,x){ return s+num(x.amount); },0));
+    var names=picked.map(function(x){ return x.name||"未命名"; }).join("、").slice(0,40);
+    var firstDate=picked[0].date||today();
+    if(bp.mode==="expense"){
+      expRecs().push({ id:uid(), cat:"其他", amount:sumAmt, date:firstDate, note:"合并 "+picked.length+" 笔："+names });
+    } else {
+      recs().push({ id:uid(), client:state.data.clients[0]||"", project:"合并 "+picked.length+" 笔："+names,
+                    amount:sumAmt, date:firstDate, paid:true, cost:0 });
+    }
+    save(); state.month=firstDate.slice(0,7); closeSheet(); render();
+    toast("已合并录入 "+picked.length+" 笔 · "+money(sumAmt));
+    return;
+  }
+  // 逐笔
+  picked.forEach(function(x){
+    var d=x.date||today();
+    if(bp.mode==="expense"){
+      expRecs().push({ id:uid(), cat:guessExpCat(x.name||""), amount:num(x.amount), date:d, note:x.name||"" });
+    } else {
+      recs().push({ id:uid(), client:state.data.clients[0]||"", project:x.name||"", amount:num(x.amount), date:d, paid:true, cost:0 });
+    }
+  });
+  save();
+  state.month=(picked[0].date||today()).slice(0,7);
+  closeSheet(); render();
+  toast("已录入 "+picked.length+" 笔 · 合计 "+money(pickSelTotal().total));
 }
 
 function runOCR(dataUrl, onProgress){
@@ -2173,18 +2229,17 @@ document.addEventListener("click", function(e){
 
   var pk=t.closest && t.closest("[data-pick]");
   if(pk && state.billPick){
-    var item=state.billPick.list[Number(pk.getAttribute("data-pick"))];
-    var mode=state.billPick.mode;
-    if(item && mode==="expense"){
-      openExpense({ id:"", cat:guessExpCat(item.name||""), amount:String(item.amount),
-                    date: item.date||today(), note: item.name||"" });
-    } else if(item){
-      openEdit({ id:"", client:"", project:item.name||"", amount:String(item.amount),
-                 date: item.date||today(), paid:true, cost:0 });
-    }
-    state.billPick=null;
+    var idx=pk.getAttribute("data-pick");
+    state.billPick.sel[idx]=!state.billPick.sel[idx];
+    pk.classList.toggle("on", !!state.billPick.sel[idx]);
+    var t2=pickSelTotal();
+    var ce=document.getElementById("pickCount"), te=document.getElementById("pickTotal");
+    if(ce) ce.textContent=t2.n;
+    if(te) te.textContent=money(t2.total);
     return;
   }
+  if(t.id==="pickEach"){ pickSave("each"); return; }
+  if(t.id==="pickMerge"){ pickSave("merge"); return; }
 
   var cid=t.closest && t.closest("[data-cid]");
   if(cid){
