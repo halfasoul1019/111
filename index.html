@@ -282,6 +282,15 @@
   .bill .bt{font-size:9.5px;padding:1px 5px;border-radius:4px;font-weight:700}
   .bill .bt.ok{color:var(--green);background:rgba(15,157,112,.1)}
   .bill .bt.no{color:var(--red);background:rgba(225,29,72,.09)}
+  .ocrbtn{width:100%;border:1px dashed rgba(8,145,178,.45);background:rgba(8,145,178,.06);color:var(--cyan);
+    border-radius:11px;padding:11px;font-size:12.5px;font-weight:800;font-family:inherit;cursor:pointer;margin-bottom:12px;
+    display:flex;align-items:center;justify-content:center;gap:6px}
+  .ocrbtn:active{background:rgba(8,145,178,.12)}
+  .ocrbox{border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:12px;background:var(--bg)}
+  .ocrbox img{width:100%;border-radius:8px;display:block}
+  .ocrbox .otxt{font-size:10.5px;color:var(--sub);margin-top:8px;max-height:70px;overflow:auto;line-height:1.5;white-space:pre-wrap}
+  .ocrprog{height:4px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:8px}
+  .ocrprog i{display:block;height:100%;background:linear-gradient(90deg,#22d3ee,#0891b2);width:0}
   /* sheet */
   .mask{position:fixed;inset:0;background:rgba(9,20,34,.42);opacity:0;pointer-events:none;transition:.2s;z-index:40;backdrop-filter:blur(2px)}
   .mask.on{opacity:1;pointer-events:auto}
@@ -1250,6 +1259,92 @@ function renderClientPage(){
   return html;
 }
 
+/* ---------------- OCR: 截图录入 ---------------- */
+var OCR_SCRIPT="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
+var OCR_LANG="https://cdn.jsdelivr.net/npm/@tesseract.js-data/chi_sim/4.0.0_best_int/";
+function loadOCR(){
+  if(window.Tesseract) return Promise.resolve();
+  if(loadOCR._p) return loadOCR._p;
+  loadOCR._p=new Promise(function(res,rej){
+    var s=document.createElement("script");
+    s.src=OCR_SCRIPT;
+    s.onload=function(){ res(); };
+    s.onerror=function(){ loadOCR._p=null; rej(new Error("ocr script")); };
+    document.head.appendChild(s);
+  });
+  return loadOCR._p;
+}
+
+function compressImage(file, maxW){
+  return new Promise(function(res,rej){
+    var fr=new FileReader();
+    fr.onload=function(){
+      var img=new Image();
+      img.onload=function(){
+        var w=img.width, h=img.height;
+        if(w>maxW){ h=Math.round(h*maxW/w); w=maxW; }
+        var cv=document.createElement("canvas");
+        cv.width=w; cv.height=h;
+        cv.getContext("2d").drawImage(img,0,0,w,h);
+        res(cv.toDataURL("image/jpeg",0.72));
+      };
+      img.onerror=function(){ rej(new Error("img")); };
+      img.src=fr.result;
+    };
+    fr.onerror=function(){ rej(new Error("read")); };
+    fr.readAsDataURL(file);
+  });
+}
+
+function parseReceipt(text){
+  var t=String(text||"").replace(/\s+/g," ");
+  var flat=t.replace(/\s+/g,"");
+  var out={ client:"", amount:0, date:"", paid:null, project:"" };
+
+  // 金额
+  var am=t.match(/(?:¥|￥|金额|合计|总计|收款|付款|转账)\s*[:：]?\s*([\d,]+(?:\.\d{1,2})?)/);
+  if(!am) am=flat.match(/(?:¥|￥|金额|合计|总计|收款|付款|转账)[:：]?([\d,]+(?:\.\d{1,2})?)/);
+  if(!am) am=t.match(/([\d,]+\.\d{2})/);
+  if(!am) am=t.match(/([\d,]{2,7})\s*元/);
+  if(am){ out.amount=parseFloat(am[1].replace(/,/g,"")); }
+
+  // 日期
+  var dm=t.match(/(20\d{2})\s*[-年\/\.]\s*(\d{1,2})\s*[-月\/\.]\s*(\d{1,2})/);
+  if(dm){ out.date=dm[1]+"-"+pad2(+dm[2])+"-"+pad2(+dm[3]); }
+  else {
+    var dm2=t.match(/(\d{1,2})\s*月\s*(\d{1,2})\s*日/);
+    if(dm2) out.date=today().slice(0,4)+"-"+pad2(+dm2[1])+"-"+pad2(+dm2[2]);
+  }
+
+  // 客户
+  var best="", bestLen=0;
+  Object.keys(ALIAS).forEach(function(k){
+    if((flat.indexOf(k)>=0 || t.indexOf(k)>=0) && k.length>bestLen){ best=ALIAS[k]; bestLen=k.length; }
+  });
+  out.client=best;
+
+  // 状态
+  if(/未收|待收|待付款|未支付|待支付/.test(t)) out.paid=false;
+  else if(/已收|已到账|支付成功|收款成功|微信支付|支付宝/.test(t)) out.paid=true;
+
+  return out;
+}
+
+function runOCR(dataUrl, onProgress){
+  return loadOCR().then(function(){
+    return Tesseract.createWorker("chi_sim", 1, {
+      langPath: OCR_LANG,
+      logger: function(m){
+        if(m && m.status==="recognizing text" && onProgress) onProgress(m.progress||0);
+      }
+    });
+  }).then(function(worker){
+    return worker.recognize(dataUrl).then(function(r){
+      return worker.terminate().then(function(){ return r.data.text; });
+    });
+  });
+}
+
 /* ---------------- sheets ---------------- */
 function openSheet(html){ $("sheet").innerHTML=html; $("sheet").classList.add("on"); $("mask").classList.add("on"); }
 function closeSheet(){ $("sheet").classList.remove("on"); $("mask").classList.remove("on"); state.editing=null; state.voice=null; state.expEditing=null; }
@@ -1262,6 +1357,8 @@ function openEdit(rec){
   if(r.client){ clients = clients.filter(function(x){return x!==r.client;}); clients.unshift(r.client); }
 
   var html = '<div class="grab"></div><h2>'+(r.id?'编辑':'记一笔')+'<span>'+ (r.id?'点金额可直接改':'说一句更快，点下方麦克风') +'</span></h2>';
+  html += '<button class="ocrbtn" id="ocrPick">📷 截图录入 · 自动认金额和日期</button>'+
+          '<input type="file" id="ocrFile" accept="image/*" capture="environment" hidden>';
   html += '<div class="flab"><span>客户 / 介绍人</span><span>共 '+clients.length+' 位</span></div>';
   html += '<div class="chips" id="clientChips">';
   clients.forEach(function(c){
@@ -1804,6 +1901,7 @@ document.addEventListener("click", function(e){
   if(t.closest && t.closest("#yearCard")){ state.tab="stats"; render(); return; }
   if(t.id==="addExp"){ openExpense(null); return; }
   if(t.id==="newClientChip"){ openAddClient(); return; }
+  if(t.id==="ocrPick"){ var f=document.getElementById("ocrFile"); if(f) f.click(); return; }
   if(t.id==="saveClient"){ saveNewClient(); return; }
   if(t.id==="saveExp"){ saveExpense(); return; }
   if(t.id==="delExp"){ delExpense(); return; }
@@ -1904,6 +2002,57 @@ document.addEventListener("click", function(e){
 document.addEventListener("input", function(e){
   if(e.target.id==="fAmount"||e.target.id==="fCost") updateProfit();
 });
+
+document.addEventListener("change", function(e){
+  if(e.target && e.target.id==="ocrFile" && e.target.files && e.target.files[0]){
+    var file=e.target.files[0];
+    handleOcrFile(file);
+    e.target.value="";
+  }
+});
+
+function handleOcrFile(file){
+  var btn=document.getElementById("ocrPick");
+  if(btn){ btn.textContent="处理图片…"; btn.disabled=true; }
+  compressImage(file, 1100).then(function(dataUrl){
+    // 先显示预览
+    var host=btn && btn.parentNode;
+    if(host){
+      var box=document.createElement("div");
+      box.className="ocrbox"; box.id="ocrBox";
+      box.innerHTML='<img src="'+dataUrl+'"><div class="otxt" id="ocrTxt">正在识别…</div><div class="ocrprog"><i id="ocrBar"></i></div>';
+      host.insertBefore(box, btn.nextSibling);
+    }
+    if(btn) btn.textContent="识别中…";
+    return runOCR(dataUrl, function(p){
+      var bar=document.getElementById("ocrBar");
+      if(bar) bar.style.width=Math.round(p*100)+"%";
+    }).then(function(text){
+      var tb=document.getElementById("ocrTxt");
+      if(tb) tb.textContent=text ? text.slice(0,300) : "没有识别到文字";
+      var parsed=parseReceipt(text||"");
+      var e=state.editing||{};
+      var draft={
+        id: e.id || "",
+        client: parsed.client || e.client || "",
+        project: e.project || "",
+        amount: parsed.amount ? String(parsed.amount) : (e.amount || ""),
+        date: parsed.date || e.date || today(),
+        paid: (parsed.paid===null) ? (e.paid===undefined? true : e.paid) : parsed.paid
+      };
+      if(!parsed.amount && !parsed.date && !parsed.client){
+        toast("没认出关键信息，请手动填");
+        if(btn){ btn.textContent="📷 截图录入 · 自动认金额和日期"; btn.disabled=false; }
+      } else {
+        toast("已识别，请核对后保存");
+        openEdit(draft);
+      }
+    });
+  }).catch(function(err){
+    toast("识别失败："+(err && err.message==="ocr script" ? "加载识别引擎失败，检查网络" : "请换一张更清晰的截图"));
+    if(btn){ btn.textContent="📷 截图录入 · 自动认金额和日期"; btn.disabled=false; }
+  });
+}
 document.addEventListener("keydown", function(e){
   if(e.target && e.target.id==="newClientName" && e.key==="Enter"){ e.preventDefault(); saveNewClient(); }
   if(e.target && e.target.id && e.target.id.indexOf("au")===0 && e.key==="Enter"){ e.preventDefault(); authSubmit(); }
