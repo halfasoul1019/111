@@ -440,7 +440,7 @@
    ============================================================ */
 var SEED = {"clients":["华越（郭总）","聪","李光","邓","何老师（何建）","大姐","王苏","刘光","杨总（杨宁）","宋老板","王萌","王龙","雨哲","小师弟","原龙","绒会","酒业协会","1111","南京","俞导","杨老板","宫老师","学峰"],"records":[],"expenses":[],"year":2026};
 
-var APP_VER="v10";
+var APP_VER="v11";
 var KEY = "biz.ledger.v2";
 var state = {
   tab: "list",
@@ -1413,8 +1413,10 @@ function preprocessImage(dataUrl){
   return new Promise(function(res){
     var img=new Image();
     img.onload=function(){
-      var maxW=1400, w=img.width, h=img.height;
+      var maxW=1600, w=img.width, h=img.height;
+      var minW=1200;
       if(w>maxW){ h=Math.round(h*maxW/w); w=maxW; }
+      else if(w<minW){ h=Math.round(h*minW/w); w=minW; }
       var cv=document.createElement("canvas");
       cv.width=w; cv.height=h;
       var ctx=cv.getContext("2d");
@@ -1464,6 +1466,16 @@ function parseBillList(text){
   return out;
 }
 
+function openOcrFail(text, mode){
+  var html='<div class="grab"></div><h2>没认出金额<span>下面是识别到的文字</span></h2>';
+  html+='<div style="font-size:11px;color:var(--sub);padding:0 2px 8px">可以截图把这面发我，我照着调；也可以直接手动填。</div>';
+  html+='<div style="font-size:11px;background:var(--bg);border-radius:10px;padding:10px;max-height:220px;overflow:auto;white-space:pre-wrap;line-height:1.6">'+
+    (text? esc(text.slice(0,600)) : '（一个字也没认出来，可能是图片太模糊或识别引擎没加载）')+'</div>';
+  html+='<div class="acts" style="margin-top:14px"><button class="btn ghost" id="cancel">关闭</button>'+
+    '<button class="btn primary" id="manualFill" data-mode="'+(mode||"expense")+'">手动填写</button></div>';
+  openSheet(html);
+}
+
 function openBillPicker(list, mode, raw){
   state.billPick = { list:list, mode:mode };
   state.billRaw = raw || "";
@@ -1490,7 +1502,8 @@ function runOCR(dataUrl, onProgress){
       }
     });
   }).then(function(worker){
-    return worker.recognize(dataUrl).then(function(r){
+    return worker.setParameters({ tessedit_pageseg_mode:"6", preserve_interword_spaces:"1" }).catch(function(){}).then(function(){
+    return worker.recognize(dataUrl); }).then(function(r){
       return worker.terminate().then(function(){ return r.data.text; });
     });
   });
@@ -2120,6 +2133,13 @@ document.addEventListener("click", function(e){
     render(); return;
   }
 
+  if(t.id==="manualFill"){
+    var mf=t.getAttribute("data-mode");
+    if(mf==="income") openEdit({id:"",client:"",project:"",amount:"",date:today(),paid:true,cost:0});
+    else openExpense({id:"",cat:"其他",amount:"",date:today(),note:""});
+    return;
+  }
+
   var pk=t.closest && t.closest("[data-pick]");
   if(pk && state.billPick){
     var item=state.billPick.list[Number(pk.getAttribute("data-pick"))];
@@ -2265,6 +2285,10 @@ function handleOcrExpense(file){
         note: parsed.note || e.note || ""
       };
       if(!parsed.amount && !parsed.date){
+        if(!(text&&text.trim())){ openOcrFail(text,"expense"); return; }
+        openOcrFail(text,"expense"); return;
+      }
+      if(false){
         toast("没认出金额，请手动填");
         if(btn){ btn.textContent="📷 截图录入 · 自动认金额和分类"; btn.disabled=false; }
       } else {
@@ -2312,7 +2336,8 @@ function handleOcrFile(file){
         paid: (parsed.paid===null) ? (e.paid===undefined? true : e.paid) : parsed.paid
       };
       if(!parsed.amount && !parsed.date && !parsed.client){
-        toast("没认出关键信息，请手动填");
+        openOcrFail(text||"","income");
+        if(false) toast("没认出关键信息，请手动填");
         if(btn){ btn.textContent="📷 截图录入 · 自动认金额和日期"; btn.disabled=false; }
       } else {
         toast("已识别，请核对后保存");
