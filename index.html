@@ -440,6 +440,7 @@
    ============================================================ */
 var SEED = {"clients":["华越（郭总）","聪","李光","邓","何老师（何建）","大姐","王苏","刘光","杨总（杨宁）","宋老板","王萌","王龙","雨哲","小师弟","原龙","绒会","酒业协会","1111","南京","俞导","杨老板","宫老师","学峰"],"records":[],"expenses":[],"year":2026};
 
+var APP_VER="v10";
 var KEY = "biz.ledger.v2";
 var state = {
   tab: "list",
@@ -979,7 +980,7 @@ function monthBar(st){
 function header(title, sub, right){
   return '<header><div class="hdrow"><div>'+
     '<div class="h1"><span class="dot"></span>'+esc(title)+'</div>'+
-    '<div class="hsub">'+esc(sub)+'</div></div>'+
+    '<div class="hsub">'+esc(sub)+' · '+APP_VER+'</div></div>'+
     '<div class="hactions">'+(right||'')+
       '<button class="iconbtn" id="addBtn" title="手动记一笔"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></button>'+
     '</div></div></header>';
@@ -1463,10 +1464,14 @@ function parseBillList(text){
   return out;
 }
 
-function openBillPicker(list, mode){
+function openBillPicker(list, mode, raw){
   state.billPick = { list:list, mode:mode };
+  state.billRaw = raw || "";
   var html='<div class="grab"></div><h2>识别到 '+list.length+' 笔<span>点一笔录进去</span></h2>';
   html+='<div style="font-size:11px;color:var(--sub);padding:0 2px 8px">这是一张账单列表截图，选你要记的那一笔。</div>';
+  if(state.billRaw){
+    html+='<div style="font-size:10px;color:var(--sub);background:var(--bg);border-radius:8px;padding:7px 9px;margin-bottom:10px;max-height:70px;overflow:auto;white-space:pre-wrap">'+esc(state.billRaw.slice(0,240))+'</div>';
+  }
   list.forEach(function(c,i){
     html+='<div class="mrow" data-pick="'+i+'">'+
       '<div class="mp"><b>'+(c.name||"未识别商户")+'</b><span>'+(c.date? c.date.replace(/-/g,"/") : "日期未识别")+'</span></div>'+
@@ -2249,7 +2254,7 @@ function handleOcrExpense(file){
       var tb=document.getElementById("ocrTxtExp");
       if(tb) tb.textContent=text ? text.slice(0,300) : "没有识别到文字";
       var bills=parseBillList(text||"");
-      if(bills.length>=2){ openBillPicker(bills,"expense"); return; }
+      if(bills.length>=2){ openBillPicker(bills,"expense",text); return; }
       var parsed=parseExpenseReceipt(text||"");
       var e=state.expEditing||{};
       var draft={
@@ -2295,7 +2300,7 @@ function handleOcrFile(file){
       var tb=document.getElementById("ocrTxt");
       if(tb) tb.textContent=text ? text.slice(0,300) : "没有识别到文字";
       var bills2=parseBillList(text||"");
-      if(bills2.length>=2){ openBillPicker(bills2,"income"); return; }
+      if(bills2.length>=2){ openBillPicker(bills2,"income",text); return; }
       var parsed=parseReceipt(text||"");
       var e=state.editing||{};
       var draft={
