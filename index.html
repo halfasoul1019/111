@@ -1539,6 +1539,8 @@ function openExpense(exp){
   var r = exp || { id:"", cat:"车费", amount:"", date: today(), note:"" };
   state.expEditing = { id:r.id, cat:r.cat, amount:r.amount, date:r.date, note:r.note||"" };
   var html = '<div class="grab"></div><h2>'+(r.id?'编辑支出':'记支出')+'<span>车费 · 设备 · 人员</span></h2>';
+  html += '<button class="ocrbtn" id="ocrPickExp">📷 截图录入 · 自动认金额和分类</button>'+
+          '<input type="file" id="ocrFileExp" accept="image/*" capture="environment" hidden>';
   html += '<div class="flab"><span>费用类型</span><span>拍摄相关</span></div><div class="chips" id="expCats">';
   EXP_CATS.forEach(function(x){
     html += '<button class="chip2 '+(x.n===r.cat?'on':'')+'" data-ec="'+x.n+'">'+x.i+' '+x.n+'</button>';
@@ -1902,6 +1904,7 @@ document.addEventListener("click", function(e){
   if(t.id==="addExp"){ openExpense(null); return; }
   if(t.id==="newClientChip"){ openAddClient(); return; }
   if(t.id==="ocrPick"){ var f=document.getElementById("ocrFile"); if(f) f.click(); return; }
+  if(t.id==="ocrPickExp"){ var f2=document.getElementById("ocrFileExp"); if(f2) f2.click(); return; }
   if(t.id==="saveClient"){ saveNewClient(); return; }
   if(t.id==="saveExp"){ saveExpense(); return; }
   if(t.id==="delExp"){ delExpense(); return; }
@@ -2004,12 +2007,91 @@ document.addEventListener("input", function(e){
 });
 
 document.addEventListener("change", function(e){
-  if(e.target && e.target.id==="ocrFile" && e.target.files && e.target.files[0]){
-    var file=e.target.files[0];
-    handleOcrFile(file);
-    e.target.value="";
-  }
+  if(!e.target || !e.target.files || !e.target.files[0]) return;
+  var file=e.target.files[0];
+  if(e.target.id==="ocrFile"){ handleOcrFile(file); e.target.value=""; }
+  else if(e.target.id==="ocrFileExp"){ handleOcrExpense(file); e.target.value=""; }
 });
+
+function guessExpCat(t){
+  var flat=String(t||"").replace(/\s+/g,"");
+  var rules=[
+    ["车费", /滴滴|打车|出租车|网约车|高德|曹操|加油|油费|停车|过路|高速|地铁|公交|车费|代驾/],
+    ["设备租赁", /租赁|租借|器材|镜头|灯光|灯|相机|摄影机|收音|麦克风|三脚架|稳定器|无人机|轨道|设备|租金/],
+    ["摄影师", /摄影费|摄像费|摄影师|摄像师|摄影指导|摄像指导|机位|跟拍|掌机|拍摄费|人工费/],
+    ["场地", /场地|场租|影棚|棚租|会议室|布景|搭建|场地费/],
+    ["后期外包", /剪辑|调色|包装|后期|特效|字幕|配音|动画|合成|修图/],
+    ["道具", /道具|服装|化妆|造型|美术|置景/],
+    ["餐饮", /餐费|餐饮|盒饭|外卖|咖啡|茶歇|宴|饭店|餐厅|食堂/]
+  ];
+  for(var i=0;i<rules.length;i++){ if(rules[i][1].test(flat)) return rules[i][0]; }
+  return "其他";
+}
+
+function parseExpenseReceipt(text){
+  var t=String(text||"").replace(/\s+/g," ");
+  var flat=t.replace(/\s+/g,"");
+  var out={ amount:0, date:"", cat:"其他", note:"" };
+
+  var am=t.match(/(?:¥|￥|金额|合计|总计|实付|应付|支付|费用)\s*[:：]?\s*([\d,]+(?:\.\d{1,2})?)/);
+  if(!am) am=flat.match(/(?:¥|￥|金额|合计|总计|实付|应付|费用)[:：]?([\d,]+(?:\.\d{1,2})?)/);
+  if(!am) am=t.match(/([\d,]+\.\d{2})/);
+  if(am) out.amount=parseFloat(am[1].replace(/,/g,""));
+
+  var dm=t.match(/(20\d{2})\s*[-年\/\.]\s*(\d{1,2})\s*[-月\/\.]\s*(\d{1,2})/);
+  if(dm) out.date=dm[1]+"-"+pad2(+dm[2])+"-"+pad2(+dm[3]);
+  else {
+    var dm2=t.match(/(\d{1,2})\s*月\s*(\d{1,2})\s*日/);
+    if(dm2) out.date=today().slice(0,4)+"-"+pad2(+dm2[1])+"-"+pad2(+dm2[2]);
+  }
+
+  out.cat=guessExpCat(t);
+
+  var nm=t.match(/(?:收款方|商户|商家|店铺|名称|出租方|服务商)\s*[:：]?\s*([^\s，,。]{2,16})/);
+  if(!nm) nm=flat.match(/(?:收款方|商户|商家|店铺|名称|出租方|服务商)[:：]?([^，,。]{2,16})/);
+  if(nm) out.note=nm[1].replace(/^(是|为)/,"").trim();
+  return out;
+}
+
+function handleOcrExpense(file){
+  var btn=document.getElementById("ocrPickExp");
+  if(btn){ btn.textContent="处理图片…"; btn.disabled=true; }
+  compressImage(file,1100).then(function(dataUrl){
+    if(btn && btn.parentNode){
+      var box=document.createElement("div");
+      box.className="ocrbox"; box.id="ocrBoxExp";
+      box.innerHTML='<img src="'+dataUrl+'"><div class="otxt" id="ocrTxtExp">正在识别…</div><div class="ocrprog"><i id="ocrBarExp"></i></div>';
+      btn.parentNode.insertBefore(box, btn.nextSibling);
+    }
+    if(btn) btn.textContent="识别中…";
+    return runOCR(dataUrl, function(pr){
+      var bar=document.getElementById("ocrBarExp");
+      if(bar) bar.style.width=Math.round(pr*100)+"%";
+    }).then(function(text){
+      var tb=document.getElementById("ocrTxtExp");
+      if(tb) tb.textContent=text ? text.slice(0,300) : "没有识别到文字";
+      var parsed=parseExpenseReceipt(text||"");
+      var e=state.expEditing||{};
+      var draft={
+        id: e.id || "",
+        cat: parsed.cat!=="其他" ? parsed.cat : (e.cat||"其他"),
+        amount: parsed.amount ? String(parsed.amount) : (e.amount||""),
+        date: parsed.date || e.date || today(),
+        note: parsed.note || e.note || ""
+      };
+      if(!parsed.amount && !parsed.date){
+        toast("没认出金额，请手动填");
+        if(btn){ btn.textContent="📷 截图录入 · 自动认金额和分类"; btn.disabled=false; }
+      } else {
+        toast("已识别：" + draft.cat + (draft.amount? " ¥"+draft.amount : ""));
+        openExpense(draft);
+      }
+    });
+  }).catch(function(err){
+    toast("识别失败："+(err && err.message==="ocr script" ? "加载识别引擎失败，检查网络" : "换张更清晰的截图试试"));
+    if(btn){ btn.textContent="📷 截图录入 · 自动认金额和分类"; btn.disabled=false; }
+  });
+}
 
 function handleOcrFile(file){
   var btn=document.getElementById("ocrPick");
