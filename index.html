@@ -45,8 +45,8 @@
   .viewseg{display:flex;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:3px;margin:0 0 12px}
   .viewseg button{flex:1;border:0;background:transparent;border-radius:8px;padding:7px;font-size:12.5px;font-weight:700;color:var(--sub);font-family:inherit;cursor:pointer}
   .viewseg button.on{background:var(--bg);color:var(--cyan);box-shadow:var(--shadow-sm)}
-  .grid6{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}
-  .grid6>div{background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:10px;padding:6px 8px}
+  .grid6{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:9px}
+  .grid6>div{background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:10px;padding:5px 8px}
   .grid6 b{display:block;font-size:15px;letter-spacing:-.3px;font-weight:800}
   .grid6 i{font-style:normal;font-size:10.5px;color:#54657d}
   .grid6 .ok b{color:var(--green)}
@@ -116,7 +116,7 @@
   .acctbar button{border:1px solid var(--line);background:var(--card);color:var(--sub);border-radius:8px;
     padding:4px 9px;font-size:10.5px;font-family:inherit;cursor:pointer}
   /* header */
-  header{padding:16px 0 4px}
+  header{padding:10px 0 2px}
   .hdrow{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
   .h1{font-size:22px;font-weight:800;letter-spacing:-.4px;display:flex;align-items:center;gap:7px}
   .h1 .dot{width:7px;height:7px;border-radius:50%;background:var(--cyan2);box-shadow:0 0 10px rgba(6,182,212,.8)}
@@ -128,7 +128,7 @@
   .iconbtn:active{transform:scale(.96)}
 
   /* month bar */
-  .mbar{display:flex;align-items:center;gap:8px;margin:14px 0 12px}
+  .mbar{display:flex;align-items:center;gap:8px;margin:10px 0 9px}
   .mbtn{width:28px;height:28px;border-radius:9px;background:var(--card);border:1px solid var(--line);
     display:grid;place-items:center;color:var(--sub);font-size:14px;cursor:pointer;font-family:inherit;box-shadow:var(--shadow-sm)}
   .mbtn:disabled{opacity:.4}
@@ -138,7 +138,7 @@
     border:1px solid rgba(8,145,178,.2);border-radius:8px;padding:4px 9px;cursor:pointer;font-family:inherit}
 
   /* hero */
-  .hero{position:relative;padding:16px;border-radius:18px;overflow:hidden;
+  .hero{position:relative;padding:13px 15px;border-radius:18px;overflow:hidden;
     background:linear-gradient(150deg,#ffffff 0%,#f2fbff 55%,#eef4ff 100%);
     border:1px solid rgba(8,145,178,.18);box-shadow:0 14px 34px rgba(13,60,90,.10)}
   @media (prefers-color-scheme:dark){ .hero{background:linear-gradient(150deg,#152334,#122231 60%,#151f33)} }
@@ -148,7 +148,7 @@
   .hero .c3{bottom:9px;left:9px;border-right:0;border-top:0;border-radius:0 0 0 4px}
   .hero .c4{bottom:9px;right:9px;border-left:0;border-top:0;border-radius:0 0 4px 0}
   .hlab{font-size:12px;color:#51637b;letter-spacing:1px;font-weight:600}
-  .hamt{font-size:39px;font-weight:800;letter-spacing:-1.2px;margin:4px 0 8px;
+  .hamt{font-size:35px;font-weight:800;letter-spacing:-1.2px;margin:2px 0 6px;
     background:linear-gradient(120deg,#062c3d,#0e7490 72%);-webkit-background-clip:text;background-clip:text;color:transparent}
   @media (prefers-color-scheme:dark){ .hamt{background:linear-gradient(120deg,#dff6ff,#67e8f9 70%);-webkit-background-clip:text;background-clip:text} }
   .hamt i{font-style:normal;font-size:15px;margin-right:2px;-webkit-text-fill-color:var(--cyan)}
@@ -291,6 +291,25 @@
   .ocrbox .otxt{font-size:10.5px;color:var(--sub);margin-top:8px;max-height:70px;overflow:auto;line-height:1.5;white-space:pre-wrap}
   .ocrprog{height:4px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:8px}
   .ocrprog i{display:block;height:100%;background:linear-gradient(90deg,#22d3ee,#0891b2);width:0}
+  .daygrp{background:var(--card);border:1px solid var(--line);border-radius:13px;margin-bottom:8px;box-shadow:var(--shadow-sm);overflow:hidden}
+  .dayh{display:flex;align-items:center;gap:8px;padding:11px 13px;cursor:pointer}
+  .dayh .dd{font-size:12.5px;font-weight:800;white-space:nowrap}
+  .dayh .dw{font-size:10px;color:var(--sub);white-space:nowrap}
+  .dayh .dc{font-size:10px;color:var(--sub);white-space:nowrap}
+  .dayh .dv{margin-left:auto;font-size:13.5px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .dayh .du{font-size:9.5px;color:var(--red);white-space:nowrap}
+  .dayh .di{color:var(--sub);font-size:11px;transition:.2s;margin-left:2px}
+  .daygrp.open .di{transform:rotate(90deg)}
+  .dayb{border-top:1px solid var(--line);padding:2px 13px 6px}
+  .dayrow{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer}
+  .dayrow:last-child{border-bottom:0}
+  .dayrow .dp{flex:1;min-width:0}
+  .dayrow .dp b{display:block;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dayrow .dp span{font-size:10px;color:var(--sub)}
+  .dayrow .da{font-size:12.5px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .dayrow .dt{font-size:9.5px;padding:1px 5px;border-radius:4px;font-weight:700;white-space:nowrap}
+  .dayrow .dt.ok{color:var(--green);background:rgba(15,157,112,.1)}
+  .dayrow .dt.no{color:var(--red);background:rgba(225,29,72,.09)}
   /* sheet */
   .mask{position:fixed;inset:0;background:rgba(9,20,34,.42);opacity:0;pointer-events:none;transition:.2s;z-index:40;backdrop-filter:blur(2px)}
   .mask.on{opacity:1;pointer-events:auto}
@@ -375,7 +394,7 @@
   @media (min-width:760px){
     .app{max-width:600px}
     body{font-size:16.5px}
-    .hamt{font-size:44px}
+    .hamt{font-size:40px}
   }
   .toast{position:fixed;left:50%;bottom:84px;transform:translate(-50%,10px);background:rgba(14,27,43,.92);color:#fff;
     font-size:12.5px;padding:9px 15px;border-radius:99px;opacity:0;pointer-events:none;transition:.2s;z-index:60}
@@ -435,6 +454,11 @@ var state = {
   returnTab: null,
   clientYear: null,
   clientCollapsed: null,
+  groupMode: "day",
+  showMonths: false,
+  showYear: false,
+  expandDay: null,
+  expandDayExp: null,
   yearA: null,
   yearB: null,
   expandYM: null
@@ -776,52 +800,64 @@ function renderList(){
       '<div><b class="mono">'+Math.round(st.rate*100)+'%</b><i>回款率</i></div>'+
     '</div></section>';
 
-  // ---- 年度总览 ----
+  // ---- 年度总览（默认收起成一行）----
   var yv = state.month.slice(0,4);
   var ys = yearStats(yv);
-  var ybHtml = "";
-  var maxY = 1;
-  for(var q=1; q<=12; q++){ maxY = Math.max(maxY, sum(monthRecs(yv+"-"+pad2(q)))); }
-  for(var mi=1; mi<=12; mi++){
-    var mm = yv+"-"+pad2(mi);
-    var mv = sum(monthRecs(mm));
-    var cls = mm===state.month ? "on" : (mv>0 ? "has" : "");
-    var hh = Math.max(2, Math.round(mv/maxY*30));
-    ybHtml += '<i class="'+cls+'" style="height:'+hh+'px" title="'+mi+'月 '+money(mv)+'"></i>';
-  }
-  html += '<section class="yearcard" id="yearCard">'+
-    '<div class="ych"><b>'+yv+' 年度总览</b><span>经营分析 ›</span></div>'+
-    '<div class="ygrid">'+
+  html += '<div class="yearcard" style="padding:11px 14px">'+
+    '<div id="yearToggle" style="display:flex;align-items:center;gap:8px;cursor:pointer">'+
+      '<b style="font-size:12.5px">'+yv+' 年度总览</b>'+
+      '<span style="font-size:10.5px;color:var(--sub)">应收 '+money(ys.total)+' · 利润 '+money(ys.profit)+'</span>'+
+      '<span style="margin-left:auto;font-size:10.5px;color:var(--cyan);font-weight:700">'+(state.showYear?"收起":"展开")+'</span>'+
+    '</div>';
+  if(state.showYear){
+    var ybHtml = "";
+    var maxY = 1;
+    for(var q=1; q<=12; q++){ maxY = Math.max(maxY, sum(monthRecs(yv+"-"+pad2(q)))); }
+    for(var mi=1; mi<=12; mi++){
+      var mm = yv+"-"+pad2(mi);
+      var mv = sum(monthRecs(mm));
+      var cls = mm===state.month ? "on" : (mv>0 ? "has" : "");
+      var hh = Math.max(2, Math.round(mv/maxY*30));
+      ybHtml += '<i class="'+cls+'" style="height:'+hh+'px"></i>';
+    }
+    html += '<div class="ygrid" style="margin-top:10px">'+
       '<div><i>应收</i><b>'+money(ys.total)+'</b></div>'+
       '<div><i>已收</i><b style="color:var(--green)">'+money(ys.paid)+'</b></div>'+
       '<div><i>支出</i><b style="color:var(--red)">'+money(ys.expense)+'</b></div>'+
       '<div><i>利润</i><b style="color:var(--cyan)">'+money(ys.profit)+'</b></div>'+
     '</div>'+
-    '<div class="ybars">'+ybHtml+'</div></section>';
+    '<div class="ybars">'+ybHtml+'</div>'+
+    '<div style="text-align:right;font-size:10.5px;color:var(--cyan);font-weight:700;margin-top:8px" id="toStats">经营分析 ›</div>';
+  }
+  html += '</div>';
 
-  // ---- 按月折叠明细 ----
-  var accRows = "";
-  for(var am=1; am<=12; am++){
-    var ak = yv+"-"+pad2(am);
-    var arec = monthRecs(ak);
-    if(!arec.length) continue;
-    var at = sum(arec), au = sum(arec.filter(function(r){return !r.paid;}));
-    var aopen = state.expandYM===ak;
-    accRows += '<div class="macc'+(aopen?" open":"")+'">'+
-      '<div class="mach" data-ym="'+ak+'"><b>'+am+' 月</b><span>应收 '+money(at)+(au?' · 未收 '+money(au):'')+' · '+arec.length+' 笔</span><i>›</i></div>';
-    if(aopen){
-      accRows += '<div class="macd">';
-      arec.slice().sort(function(x,y2){ return x.date<y2.date?-1:1; }).forEach(function(r){
-        accRows += '<div class="macrow"><span>'+esc(r.client)+' · '+(r.project?esc(r.project):'未填项目')+'</span>'+
-          '<b>'+money(r.amount)+'</b><em class="'+(r.paid?'ok':'no')+'">'+(r.paid?'已收':'未收')+'</em></div>';
-      });
-      accRows += '</div>';
+  // ---- 按月明细（默认收起，避免把按天列表挤下去）----
+  html += '<div class="panel" style="padding:12px 14px;margin-top:2px">'+
+    '<div id="toggleMonths" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer">'+
+      '<b style="font-size:12.5px">按月看全年</b>'+
+      '<span style="font-size:10.5px;color:var(--sub)">'+(state.showMonths?"收起":"点开")+'</span></div>';
+  if(state.showMonths){
+    var yv2=state.month.slice(0,4);
+    for(var am=1; am<=12; am++){
+      var ak = yv2+"-"+pad2(am);
+      var arec = monthRecs(ak);
+      if(!arec.length) continue;
+      var at = sum(arec), au = sum(arec.filter(function(r){return !r.paid;}));
+      var aopen = state.expandYM===ak;
+      html += '<div class="macc'+(aopen?" open":"")+'">'+
+        '<div class="mach" data-ym="'+ak+'"><b>'+am+' 月</b><span>应收 '+money(at)+(au?' · 未收 '+money(au):'')+' · '+arec.length+' 笔</span><i>›</i></div>';
+      if(aopen){
+        html += '<div class="macd">';
+        arec.slice().sort(function(x,y2){ return x.date<y2.date?-1:1; }).forEach(function(r){
+          html += '<div class="macrow"><span>'+esc(r.client)+' · '+(r.project?esc(r.project):'未填项目')+'</span>'+
+            '<b>'+money(r.amount)+'</b><em class="'+(r.paid?'ok':'no')+'">'+(r.paid?'已收':'未收')+'</em></div>';
+        });
+        html += '</div>';
+      }
+      html += '</div>';
     }
-    accRows += '</div>';
   }
-  if(accRows){
-    html += '<div class="panel" style="padding:12px 14px 2px"><h3>按月明细 <span>点月份展开</span></h3>'+accRows+'</div>';
-  }
+  html += '</div>';
 
   if(isExp){
     var exps = monthExp(state.month).sort(function(a,b){ return a.date<b.date?1:-1; });
@@ -831,22 +867,31 @@ function renderList(){
     if(!exps.length){
       html += '<div class="empty"><b>这个月还没有支出</b>车费、租设备、摄影师、场地等都能记在这里</div>';
     } else {
-      var byCat={}, order=[];
+      var eByDay={}, eDays=[];
       exps.forEach(function(e){
-        if(!byCat[e.cat]){ byCat[e.cat]=[]; order.push(e.cat); }
-        byCat[e.cat].push(e);
+        if(!eByDay[e.date]){ eByDay[e.date]=[]; eDays.push(e.date); }
+        eByDay[e.date].push(e);
       });
-      order.sort(function(a,b){ return sum(byCat[b])-sum(byCat[a]); });
-      order.forEach(function(cat){
-        var items=byCat[cat];
-        html += '<div class="ghead"><div class="n"><s></s>'+esc(expCat(cat).i+" "+cat)+'<em>'+items.length+' 笔</em></div>'+
-                '<div class="s mono">'+money(sum(items))+'</div></div>';
-        items.forEach(function(e){
-          html += '<div class="row" data-exp="'+e.id+'">'+
-            '<div class="pn">'+(e.note? esc(e.note) : '<span style="color:var(--sub);font-weight:500">'+esc(cat)+'</span>')+
-              '<small>'+e.date.slice(5).replace("-","/")+' · '+esc(cat)+'</small></div>'+
-            '<div class="am mono" style="color:var(--red)">-'+money(e.amount).replace("¥","¥")+'</div></div>';
-        });
+      eDays.sort().reverse();
+      eDays.forEach(function(d){
+        var items=eByDay[d], dt=sum(items);
+        var open = state.expandDayExp===d;
+        var wd=["周日","周一","周二","周三","周四","周五","周六"][new Date(d).getDay()];
+        html += '<div class="daygrp'+(open?" open":"")+'" data-dayx="'+d+'">'+
+          '<div class="dayh"><div class="dd">'+Number(d.slice(5,7))+'月'+Number(d.slice(8,10))+'日</div>'+
+          '<div class="dw">'+wd+'</div><div class="dc">'+items.length+' 笔</div>'+
+          '<div class="dv" style="color:var(--red)">-'+money(dt).replace("¥","¥")+'</div>'+
+          '<div class="di">›</div></div>';
+        if(open){
+          html += '<div class="dayb">';
+          items.forEach(function(e){
+            html += '<div class="dayrow" data-exp="'+e.id+'">'+
+              '<div class="dp"><b>'+esc(e.note|| e.cat)+'</b><span>'+esc(e.cat)+'</span></div>'+
+              '<div class="da" style="color:var(--red)">-'+money(e.amount)+'</div></div>';
+          });
+          html += '</div>';
+        }
+        html += '</div>';
       });
     }
     return html;
@@ -864,16 +909,49 @@ function renderList(){
   var list=monthRecs(state.month).sort(function(a,b){ return a.date<b.date?-1:1; });
   if(state.clientFilter) list=list.filter(function(r){ return r.client===state.clientFilter; });
 
-  var groups={}, order2=[];
-  list.forEach(function(r){
-    if(!groups[r.client]){ groups[r.client]=[]; order2.push(r.client); }
-    groups[r.client].push(r);
-  });
-  order2.sort(function(a,b){ return sum(groups[b]) - sum(groups[a]); });
+  var gm=state.groupMode||"day";
+  html += '<div class="viewseg" style="margin:2px 0 10px">'+
+    '<button data-gm="day" class="'+(gm==="day"?"on":"")+'">按天看</button>'+
+    '<button data-gm="client" class="'+(gm==="client"?"on":"")+'">按客户看</button></div>';
 
   if(!list.length){
     html += '<div class="empty"><b>这个月还没有记录</b>点底部的麦克风说一句，或点右上角 ＋ 手动记</div>';
+  } else if(gm==="day"){
+    var byDay={}, days=[];
+    list.forEach(function(r){
+      if(!byDay[r.date]){ byDay[r.date]=[]; days.push(r.date); }
+      byDay[r.date].push(r);
+    });
+    days.sort().reverse();
+    days.forEach(function(d){
+      var items=byDay[d], dt=sum(items), dUn=sum(items.filter(function(r){return !r.paid;}));
+      var open = state.expandDay===d;
+      var wd=["周日","周一","周二","周三","周四","周五","周六"][new Date(d).getDay()];
+      html += '<div class="daygrp'+(open?" open":"")+'" data-day="'+d+'">'+
+        '<div class="dayh"><div class="dd">'+Number(d.slice(5,7))+'月'+Number(d.slice(8,10))+'日</div>'+
+        '<div class="dw">'+wd+'</div><div class="dc">'+items.length+' 笔</div>'+
+        '<div class="dv">'+money(dt)+'</div>'+
+        (dUn?'<div class="du">未收 '+money(dUn)+'</div>':'')+
+        '<div class="di">›</div></div>';
+      if(open){
+        html += '<div class="dayb">';
+        items.forEach(function(r){
+          html += '<div class="dayrow" data-id="'+r.id+'">'+
+            '<div class="dp"><b>'+esc(r.client)+'</b><span>'+(r.project?esc(r.project):'未填项目')+'</span></div>'+
+            '<span class="dt '+(r.paid?'ok':'no')+'">'+(r.paid?'已收':'未收')+'</span>'+
+            '<div class="da">'+money(r.amount)+'</div></div>';
+        });
+        html += '</div>';
+      }
+      html += '</div>';
+    });
   } else {
+    var groups={}, order2=[];
+    list.forEach(function(r){
+      if(!groups[r.client]){ groups[r.client]=[]; order2.push(r.client); }
+      groups[r.client].push(r);
+    });
+    order2.sort(function(a,b){ return sum(groups[b]) - sum(groups[a]); });
     order2.forEach(function(c2){
       var items=groups[c2], ct=sum(items), unpaid2=sum(items.filter(function(r){return !r.paid;}));
       html += '<div class="ghead" data-client="'+esc(c2)+'"><div class="n"><s></s>'+esc(c2)+'<em>'+items.length+' 笔</em></div>'+
@@ -1358,7 +1436,7 @@ function openEdit(rec){
 
   var html = '<div class="grab"></div><h2>'+(r.id?'编辑':'记一笔')+'<span>'+ (r.id?'点金额可直接改':'说一句更快，点下方麦克风') +'</span></h2>';
   html += '<button class="ocrbtn" id="ocrPick">📷 截图录入 · 自动认金额和日期</button>'+
-          '<input type="file" id="ocrFile" accept="image/*" capture="environment" hidden>';
+          '<input type="file" id="ocrFile" accept="image/*" hidden>';
   html += '<div class="flab"><span>客户 / 介绍人</span><span>共 '+clients.length+' 位</span></div>';
   html += '<div class="chips" id="clientChips">';
   clients.forEach(function(c){
@@ -1540,7 +1618,7 @@ function openExpense(exp){
   state.expEditing = { id:r.id, cat:r.cat, amount:r.amount, date:r.date, note:r.note||"" };
   var html = '<div class="grab"></div><h2>'+(r.id?'编辑支出':'记支出')+'<span>车费 · 设备 · 人员</span></h2>';
   html += '<button class="ocrbtn" id="ocrPickExp">📷 截图录入 · 自动认金额和分类</button>'+
-          '<input type="file" id="ocrFileExp" accept="image/*" capture="environment" hidden>';
+          '<input type="file" id="ocrFileExp" accept="image/*" hidden>';
   html += '<div class="flab"><span>费用类型</span><span>拍摄相关</span></div><div class="chips" id="expCats">';
   EXP_CATS.forEach(function(x){
     html += '<button class="chip2 '+(x.n===r.cat?'on':'')+'" data-ec="'+x.n+'">'+x.i+' '+x.n+'</button>';
@@ -1944,7 +2022,23 @@ document.addEventListener("click", function(e){
     return;
   }
 
-  var cmh=t.closest && t.closest(".monh");
+  if(t.id==="toggleMonths"){ state.showMonths=!state.showMonths; render(); return; }
+  if(t.id==="yearToggle"){ state.showYear=!state.showYear; render(); return; }
+  if(t.id==="toStats"){ state.tab="stats"; render(); return; }
+  var gm2=t.closest && t.closest("[data-gm]");
+  if(gm2){ state.groupMode=gm2.getAttribute("data-gm"); state.expandDay=null; render(); return; }
+  var dg=t.closest && t.closest("[data-day]");
+  if(dg){
+    var dk=dg.getAttribute("data-day");
+    state.expandDay=(state.expandDay===dk)? null : dk; render(); return;
+  }
+  var dgx=t.closest && t.closest("[data-dayx]");
+  if(dgx){
+    var dkx=dgx.getAttribute("data-dayx");
+    state.expandDayExp=(state.expandDayExp===dkx)? null : dkx; render(); return;
+  }
+
+  var cm2=t.closest && t.closest(".monh");
   if(cmh){
     var cm2=cmh.closest("[data-cm2]");
     var k2=cm2.getAttribute("data-cm2");
