@@ -318,6 +318,25 @@
   .pickfoot{position:sticky;bottom:0;background:var(--card);padding:10px 0 2px;margin-top:6px;border-top:1px solid var(--line)}
   .picksum{display:flex;justify-content:space-between;font-size:12px;margin-bottom:8px}
   .picksum b{font-size:15px;color:var(--ink)}
+  /* 支出模式配色 */
+  .sheet.expmode .btn.primary{background:linear-gradient(135deg,#fb923c,#ea580c);box-shadow:0 10px 22px rgba(234,88,12,.28)}
+  .sheet.expmode .ocrbtn{border-color:rgba(234,88,12,.4);background:rgba(234,88,12,.06);color:#ea580c}
+  .sheet.expmode .amount{border-color:rgba(234,88,12,.25)}
+  .sheet.expmode .chip2.on{border-color:#ea580c;color:#ea580c;background:rgba(234,88,12,.08)}
+  .sheet.expmode h2::after{content:"支出";font-size:9px;font-weight:800;color:#fff;background:#ea580c;
+    border-radius:5px;padding:2px 6px;margin-left:8px;vertical-align:3px}
+  .sheet.incmode h2::after{content:"收入";font-size:9px;font-weight:800;color:#fff;background:#0891b2;
+    border-radius:5px;padding:2px 6px;margin-left:8px;vertical-align:3px}
+  .micfab{position:fixed;right:18px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:25;width:56px;height:56px;border-radius:50%;
+    border:0;display:grid;place-items:center;background:linear-gradient(145deg,#22d3ee,#0891b2);color:#fff;
+    box-shadow:0 10px 24px rgba(8,145,178,.4);cursor:pointer}
+  .micfab:active{transform:scale(.95)}
+  .undobar{position:fixed;left:50%;transform:translate(-50%,20px);bottom:calc(84px + env(safe-area-inset-bottom));
+    background:rgba(15,23,42,.94);color:#fff;border-radius:99px;padding:10px 12px 10px 16px;display:flex;align-items:center;gap:12px;
+    font-size:12.5px;opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:92vw}
+  .undobar.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+  .undobar button{border:0;background:rgba(255,255,255,.16);color:#7dd3fc;font-weight:800;font-size:12.5px;
+    border-radius:99px;padding:5px 12px;font-family:inherit;cursor:pointer;white-space:nowrap}
   /* sheet */
   .mask{position:fixed;inset:0;background:rgba(9,20,34,.42);opacity:0;pointer-events:none;transition:.2s;z-index:40;backdrop-filter:blur(2px)}
   .mask.on{opacity:1;pointer-events:auto}
@@ -415,17 +434,16 @@
 <nav class="dock" id="dock"><div class="dockin">
   <button class="d on" data-tab="list">
     <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h5"/></svg>
-    账单
+    收入
+  </button>
+  <button class="d" data-tab="expense">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h10M4 17h7"/><circle cx="18.5" cy="16.5" r="2.5"/></svg>
+    支出
   </button>
   <button class="d" data-tab="compare">
     <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V9M10 19V5M16 19v-7"/><path d="M2 19h20"/></svg>
     对比
   </button>
-  <div class="micwrap">
-    <button class="mic" id="micBtn" aria-label="语音记账">
-      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><path d="M12 18v3"/></svg>
-    </button>
-  </div>
   <button class="d" data-tab="stats">
     <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg>
     分析
@@ -435,6 +453,10 @@
     客户
   </button>
 </div></nav>
+<button class="micfab" id="micBtn" aria-label="语音记账">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><path d="M12 18v3"/></svg>
+</button>
+<div class="undobar" id="undoBar"><span id="undoMsg"></span><button id="undoBtn">撤销</button></div>
 
 <div class="mask" id="mask"></div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
@@ -448,7 +470,7 @@
    ============================================================ */
 var SEED = {"clients":["华越（郭总）","聪","李光","邓","何老师（何建）","大姐","王苏","刘光","杨总（杨宁）","宋老板","王萌","王龙","雨哲","小师弟","原龙","绒会","酒业协会","1111","南京","俞导","杨老板","宫老师","学峰"],"records":[],"expenses":[],"year":2026};
 
-var APP_VER="v14";
+var APP_VER="v16";
 var KEY = "biz.ledger.v2";
 var state = {
   tab: "list",
@@ -780,13 +802,11 @@ function parseVoice(text){
 function renderList(){
   var st=statsOf(state.month), prev=statsOf(shiftMonth(state.month,-1));
   var diff = prev.total ? (st.total-prev.total)/prev.total : 0;
-  var isExp = state.listView==="expense";
+  var isExp = (state.tab==="expense") || state.listView==="expense";
 
-  var html = header("业务账单","BUSINESS LEDGER · "+state.month.replace("-"," / "), "");
+  var html = header(isExp? "支出" : "业务账单",
+    (isExp? "EXPENSES · " : "BUSINESS LEDGER · ")+state.month.replace("-"," / "), "");
   html += monthBar(st);
-  html += '<div class="viewseg">'+
-    '<button data-lv="income" class="'+(isExp?"":"on")+'">收入账单</button>'+
-    '<button data-lv="expense" class="'+(isExp?"on":"")+'">支出明细</button></div>';
 
   if(state.clientFilter){
     html += '<div style="display:flex;align-items:center;gap:8px;margin:-4px 0 10px">'+
@@ -800,14 +820,27 @@ function renderList(){
     '<div class="hlab">'+(isExp?"本月支出合计":"本月应收合计")+'</div>'+
     '<div class="hamt mono"><i>¥</i>'+money(isExp? st.expense : st.total,true).slice(1)+'</div>'+
     (isExp? '' : (prev.total? '<div class="delta '+(diff<0?"neg":"")+'">'+(diff>=0?"▲":"▼")+' '+Math.abs(diff*100).toFixed(1)+'% vs '+monthShort(shiftMonth(state.month,-1))+'</div>':'') )+
-    '<div class="grid6">'+
+    (isExp ? (function(){
+      var ex=monthExp(state.month);
+      var exTotal=sum(ex);
+      var exMax=ex.length? Math.max.apply(null, ex.map(function(e2){return num(e2.amount);})) : 0;
+      var prevEx=sum(monthExp(shiftMonth(state.month,-1)));
+      var chg=prevEx? (exTotal-prevEx)/prevEx*100 : 0;
+      var dnum=new Date(Number(state.month.slice(0,4)), Number(state.month.slice(5,7)), 0).getDate();
+      return '<div class="grid6">'+
+        '<div><b class="mono">'+ex.length+'</b><i>笔数</i></div>'+
+        '<div><b class="mono">'+money(num(exTotal/dnum))+'</b><i>日均</i></div>'+
+        '<div><b class="mono">'+money(exMax)+'</b><i>最大一笔</i></div>'+
+        '<div><b class="mono" style="color:'+(chg>0?"var(--red)":"var(--green)")+'">'+(prevEx?(chg>0?"+":"")+chg.toFixed(0)+"%":"—")+'</b><i>环比</i></div>'+
+      '</div></section>';
+    })() : ('<div class="grid6">'+
       '<div class="ok"><b class="mono">'+money(st.paid)+'</b><i>已收</i></div>'+
       '<div class="no"><b class="mono">'+money(st.unpaid)+'</b><i>未收</i></div>'+
       '<div><b class="mono">'+st.count+'</b><i>项目</i></div>'+
       '<div class="no"><b class="mono">'+money(st.expense)+'</b><i>支出</i></div>'+
       '<div class="pr"><b class="mono">'+money(st.profit)+'</b><i>利润</i></div>'+
       '<div><b class="mono">'+Math.round(st.rate*100)+'%</b><i>回款率</i></div>'+
-    '</div></section>';
+    '</div></section>'));
 
   // ---- 年度总览（默认收起成一行）----
   var yv = state.month.slice(0,4);
@@ -1547,6 +1580,7 @@ function pickSelTotal(){
 
 function pickSave(mode2){
   var bp=state.billPick; if(!bp) return;
+  var __prev=snapshotData();
   var picked=Object.keys(bp.sel).filter(function(k){ return bp.sel[k]; })
     .map(function(k){ return bp.list[Number(k)]; })
     .sort(function(a,b){ return a.date<b.date?-1:1; });
@@ -1562,7 +1596,7 @@ function pickSave(mode2){
                     amount:sumAmt, date:firstDate, paid:true, cost:0 });
     }
     save(); state.month=firstDate.slice(0,7); closeSheet(); render();
-    toast("已合并录入 "+picked.length+" 笔 · "+money(sumAmt));
+    showUndo(__prev,"已合并 "+picked.length+" 笔 · "+money(sumAmt));
     return;
   }
   // 逐笔
@@ -1577,7 +1611,7 @@ function pickSave(mode2){
   save();
   state.month=(picked[0].date||today()).slice(0,7);
   closeSheet(); render();
-  toast("已录入 "+picked.length+" 笔 · 合计 "+money(pickSelTotal().total));
+  showUndo(__prev,"已录入 "+picked.length+" 笔 · "+money(pickSelTotal().total));
 }
 
 function runOCR(dataUrl, onProgress){
@@ -1629,6 +1663,7 @@ function openEdit(rec){
     '<button class="btn primary" id="saveRec">保存</button></div>';
 
   openSheet(html);
+  $("sheet").classList.add("incmode"); $("sheet").classList.remove("expmode");
   updateProfit();
   var amt=$("fAmount"); if(amt && !r.id) setTimeout(function(){amt.focus();},200);
 }
@@ -1747,6 +1782,24 @@ function openMonthPick(target){
   openSheet(html);
 }
 
+function snapshotData(){ return JSON.stringify(state.data); }
+var undoState=null, undoTimer=null;
+function showUndo(prev, msg){
+  undoState=prev;
+  var m=$("undoMsg"), bar=$("undoBar");
+  if(!m || !bar) return;
+  m.textContent=msg || "已保存";
+  bar.classList.add("on");
+  clearTimeout(undoTimer);
+  undoTimer=setTimeout(function(){ bar.classList.remove("on"); undoState=null; }, 6000);
+}
+function doUndo(){
+  if(!undoState){ toast("没有可撤销的操作"); return; }
+  state.data=JSON.parse(undoState); undoState=null;
+  $("undoBar").classList.remove("on");
+  save(); render(); toast("已撤销");
+}
+
 function openAddClient(){
   state._draft = state.editing ? {
     id: state.editing.id, client:"",
@@ -1804,25 +1857,26 @@ function openExpense(exp){
     (r.id?'<button class="btn danger" id="delExp">删除</button>':'')+
     '<button class="btn primary" id="saveExp">保存</button></div>';
   openSheet(html);
+  $("sheet").classList.add("expmode"); $("sheet").classList.remove("incmode");
   setTimeout(function(){ var a=$("fExpAmount"); if(a && !r.id) a.focus(); },200);
 }
 
 function saveExpense(){
   var e=state.expEditing; if(!e) return;
+  var __prev=snapshotData();
   var amount=parseFloat($("fExpAmount").value);
   if(!amount || amount<=0){ toast("请输入金额"); $("fExpAmount").focus(); return; }
   var date=$("fExpDate").value || today();
   var note=$("fExpNote").value.trim();
   if(e.id){
     expRecs().forEach(function(x){ if(x.id===e.id){ x.cat=e.cat; x.amount=num(amount); x.date=date; x.note=note; } });
-    toast("已更新");
   } else {
     expRecs().push({ id:uid(), cat:e.cat, amount:num(amount), date:date, note:note });
-    toast("已记下支出");
   }
   save();
-  state.month=date.slice(0,7); state.listView="expense";
+  state.month=date.slice(0,7);
   closeSheet(); render();
+  showUndo(__prev,"已记支出 "+money(amount));
 }
 
 function delExpense(){
@@ -1901,6 +1955,7 @@ function openOverdue(){
 /* ---------------- actions ---------------- */
 function saveRecord(){
   var e=state.editing; if(!e) return;
+  var __prev=snapshotData();
   var amount=parseFloat($("fAmount").value);
   if(!amount || amount<=0){ toast("请输入金额"); $("fAmount").focus(); return; }
   var date=$("fDate").value || today();
@@ -1914,19 +1969,19 @@ function saveRecord(){
     recs().forEach(function(r){
       if(r.id===e.id){ r.client=client; r.project=project; r.amount=num(amount); r.date=date; r.paid=e.paid; r.cost=num(cost); }
     });
-    toast("已更新");
   } else {
     recs().push({ id:uid(), client:client, project:project, amount:num(amount), date:date, paid:e.paid, cost:num(cost) });
-    toast("已记下");
   }
   if(!state.data.clients.includes(client)) state.data.clients.push(client);
   save();
   state.month=date.slice(0,7);
   closeSheet();
   render();
+  showUndo(__prev,"已记下 "+money(amount));
 }
 
 function addRecordFromVoice(){
+  var __prev=snapshotData();
   var p=state.voice && state.voice.parsed;
   if(!p || !p.amount){ toast("还缺金额，补一句或直接改"); return; }
   var client = p.client || p.newClient;
@@ -1936,14 +1991,15 @@ function addRecordFromVoice(){
   if(state.data.clients.indexOf(client)<0) state.data.clients.push(client);
   save();
   state.month=p.date.slice(0,7);
-  closeSheet(); render(); toast("已记下 · "+client+" "+money(p.amount));
+  closeSheet(); render(); showUndo(__prev,"已记下 "+client+" "+money(p.amount));
 }
 
 function delRecord(){
   var e=state.editing; if(!e||!e.id) return;
   if(!confirm("删除这条记录？")) return;
+  var __prev=snapshotData();
   state.data.records=recs().filter(function(r){ return r.id!==e.id; });
-  save(); closeSheet(); render(); toast("已删除");
+  save(); closeSheet(); render(); showUndo(__prev,"已删除一笔");
 }
 
 function exportCsv(){
@@ -2060,7 +2116,7 @@ function authSubmit(){
 function render(){
   var app=$("app"), dock=$("dock");
   var html="";
-  if(state.tab==="list") html=renderList();
+  if(state.tab==="list" || state.tab==="expense") html=renderList();
   else if(state.tab==="compare") html=renderCompare();
   else if(state.tab==="stats") html=renderStats();
   else if(state.tab==="client") html=renderClientPage();
@@ -2440,6 +2496,58 @@ document.addEventListener("keydown", function(e){
   if(e.target && e.target.id==="newClientName" && e.key==="Enter"){ e.preventDefault(); saveNewClient(); }
   if(e.target && e.target.id && e.target.id.indexOf("au")===0 && e.key==="Enter"){ e.preventDefault(); authSubmit(); }
 });
+
+document.addEventListener("click", function(e){
+  if(e.target && e.target.id==="undoBtn"){ doUndo(); }
+});
+
+/* 左滑删除 */
+var sw={x:0,y:0,el:null,moved:false};
+function swipeTarget(el){
+  if(!el) return null;
+  if(el.hasAttribute && (el.hasAttribute("data-id")||el.hasAttribute("data-exp")||el.hasAttribute("data-cid"))) return el;
+  return null;
+}
+function swipeDelete(el){
+  var prev=snapshotData();
+  if(el.hasAttribute("data-id")){
+    var id=el.getAttribute("data-id");
+    state.data.records=recs().filter(function(r){ return r.id!==id; });
+  } else if(el.hasAttribute("data-exp")){
+    var eid=el.getAttribute("data-exp");
+    state.data.expenses=expRecs().filter(function(x){ return x.id!==eid; });
+  } else if(el.hasAttribute("data-cid")){
+    var cid=el.getAttribute("data-cid");
+    state.data.records=recs().filter(function(r){ return r.id!==cid; });
+  }
+  save(); render(); showUndo(prev,"已删除一笔");
+}
+document.addEventListener("touchstart", function(e){
+  var el=swipeTarget(e.target.closest && e.target.closest("[data-id],[data-exp],[data-cid]"));
+  if(!el){ sw.el=null; return; }
+  sw.el=el; sw.moved=false;
+  sw.x=e.touches[0].clientX; sw.y=e.touches[0].clientY;
+}, {passive:true});
+document.addEventListener("touchmove", function(e){
+  if(!sw.el) return;
+  var dx=e.touches[0].clientX-sw.x, dy=e.touches[0].clientY-sw.y;
+  if(Math.abs(dy)>50){ sw.el.style.transform=""; sw.el=null; return; }
+  if(dx<-10){
+    sw.moved=true;
+    sw.el.style.transition="none";
+    sw.el.style.transform="translateX("+Math.max(-96,dx)+"px)";
+  }
+}, {passive:true});
+document.addEventListener("touchend", function(e){
+  if(!sw.el) return;
+  var el=sw.el, moved=sw.moved;
+  sw.el=null;
+  var off=0, mm=(el.style.transform||"").match(/-?\d+/);
+  if(mm) off=Number(mm[0]);
+  el.style.transition="transform .18s";
+  el.style.transform="";
+  if(moved && off<=-55) swipeDelete(el);
+}, {passive:true});
 
 /* ---------------- mic ---------------- */
 $("micBtn").onclick=function(){ openVoice(); };
